@@ -64,13 +64,27 @@ ESCAPE_RATES = {
 # =============================================================================
 # Fitness parameters
 # =============================================================================
-FITNESS_COST_KILL_SWITCH = 0.05  # 5% growth penalty per kill switch layer
-FITNESS_ADVANTAGE_ESCAPER = 40.0  # Chlebek 2023: 37-51x competitive advantage
-BURDEN_PENALTY = {
-    "low": 0.11,  # 11% growth penalty, Williams 2022 (10 uM IPTG)
-    "mid": 0.31,  # 31% growth penalty, Williams 2022 (20 uM IPTG)
-    "high": 0.57,  # 57% growth penalty, Williams 2022 (50 uM IPTG)
-}
+# Fitness parameters — calibrated from experimental competitive index data
+# Chlebek 2023: 37-51x competitive advantage over 13 generations (48h)
+# This means per-generation growth ratio: 40^(1/13) = 1.328
+# So fitness cost per generation = 1 - 1/1.328 = 0.247
+# However, this includes ALL disadvantages (metabolic, leaky toxin, etc.)
+# For the kill switch alone, we use the architecturally-specific values below.
+#
+# Williams 2022 measured direct growth penalties at different burden levels:
+#   Low (10uM IPTG):  11% penalty → per-gen cost ≈ 0.11
+#   Mid (20uM IPTG):  31% penalty → per-gen cost ≈ 0.31
+#   High (50uM IPTG): 57% penalty → per-gen cost ≈ 0.57
+#
+# We use moderate-burden values calibrated to Chlebek's competition assays.
+FITNESS_COST_TA = (
+    0.25  # toxin-antitoxin: calibrated from 37-51x competitive disadvantage
+)
+FITNESS_COST_CRISPR = 0.10  # CRISPR: lower burden (Cas9 not continuously expressed)
+FITNESS_COST_OG = 0.20  # overlapping gene: recoded ilvA has reduced efficiency
+FITNESS_COST_AUX = 0.05  # auxotrophy: minimal cost when nutrient supplied
+FITNESS_COST_INTEGRASE = 0.15  # integrase: moderate expression burden
+FITNESS_ADVANTAGE_ESCAPER = 40.0  # Chlebek 2023: 37-51x competitive advantage (13 gen)
 
 # =============================================================================
 # Experimental conditions

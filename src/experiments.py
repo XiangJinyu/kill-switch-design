@@ -66,9 +66,36 @@ def _save(name, data):
     return path
 
 
+# Architecture-specific fitness costs (per generation)
+# Calibrated from experimental competitive index data
+#
+# Key insight: fitness cost ≠ selective advantage of escapers.
+# For entangled genes (OG), escapers retain partial fitness costs
+# because they must preserve the essential gene function.
+#
+# Sources:
+# - Chlebek 2023: 37-51x competitive advantage for TA escapers (13 gen)
+#   → per-gen cost of TA-burdened cells ≈ 0.25
+# - Chlebek 2023: OG escapers with ilvA selection show reduced (2-5 fold)
+#   promoter activity, not zero burden → OG escape advantage is ~5-20x
+#   → per-gen cost of OG-burdened cells ≈ 0.12
+# - Williams 2022: 57% growth penalty at high IPTG (50uM) for 1x T7RNAP
+#   → per-gen cost ≈ 0.15 at moderate expression
+# - Rottinghaus 2022: GFP expression equivalent to WT → low burden
+#   → per-gen cost ≈ 0.05 for CRISPR (not actively expressed until induced)
+FITNESS_COSTS = {
+    "toxin_antitoxin": 0.25,  # Chlebek 2023: 37-51x competitive advantage
+    "crispr_single": 0.05,  # Rottinghaus 2022: minimal leaky expression
+    "crispr_multi": 0.05,  # Rottinghaus 2022: Cas9 not expressed until aTc
+    "overlapping_gene": 0.12,  # Chlebek 2023: reduced promoter activity, not full escape
+    "auxotrophy": 0.03,  # minimal metabolic cost when nutrient supplied
+    "integrase_differentiation": 0.15,  # Williams 2022: moderate T7 RNAP burden
+}
+
+
 def make_layer(name):
     """Create a KillSwitchLayer from the literature-calibrated spectrum."""
-    cost = 0.03 if name == "auxotrophy" else 0.05
+    cost = FITNESS_COSTS.get(name, 0.10)
     return KillSwitchLayer(
         name=name, spectrum=MUTATION_SPECTRA[name], fitness_cost=cost
     )

@@ -1,0 +1,203 @@
+{
+  "toxin_antitoxin": {
+    "rich_lab": {
+      "description": "LB, 37C, 1:100 dilution",
+      "N0": 10000000,
+      "K": 1000000000.0,
+      "passage_gens": 6.6,
+      "dilution": 100,
+      "t50_median": 52.8,
+      "t50_ci95": [
+        52.8,
+        52.8
+      ],
+      "final_frac_mean": 1.0
+    },
+    "minimal_lab": {
+      "description": "M9 minimal, 37C, 1:50 dilution",
+      "N0": 10000000,
+      "K": 500000000.0,
+      "passage_gens": 10.0,
+      "dilution": 50,
+      "t50_median": 90.0,
+      "t50_ci95": [
+        90.0,
+        90.0
+      ],
+      "final_frac_mean": 1.0
+    },
+    "gut_aerobic": {
+      "description": "Gut-like, aerobic niche, 1:10 dilution",
+      "N0": 10000000,
+      "K": 100000000.0,
+      "passage_gens": 8.0,
+      "dilution": 10,
+      "t50_median": 120.0,
+      "t50_ci95": [
+        120.0,
+        120.0
+      ],
+      "final_frac_mean": 1.0
+    },
+    "gut_anaerobic": {
+      "description": "Gut-like, anaerobic, 1:5 dilution",
+      "N0": 10000000,
+      "K": 50000000.0,
+      "passage_gens": 12.0,
+      "dilution": 5,
+      "t50_median": 264.0,
+      "t50_ci95": [
+        264.0,
+        264.0
+      ],
+      "final_frac_mean": 1.0
+    },
+    "soil": {
+      "description": "Soil, slow growth, minimal dilution",
+      "N0": 5000000,
+      "K": 10000000.0,
+      "passage_gens": 20.0,
+      "dilution": 2,
+      "t50_median": 880.0,
+      "t50_ci95": [
+        880.0,
+        880.0
+      ],
+      "final_frac_mean": 0.8478730087999999
+    }
+  },
+  "crispr_multi": {
+    "rich_lab": {
+      "description": "LB, 37C, 1:100 dilution",
+      "N0": 10000000,
+      "K": 1000000000.0,
+      "passage_gens": 6.6,
+      "dilution": 100,
+      "t50_median": 396.0,
+      "t50_ci95": [
+        396.0,
+        402.59999999999997
+      ],
+      "final_frac_mean": 0.9993543474000001
+    },
+    "minimal_lab": {
+      "description": "M9 minimal, 37C, 1:50 dilution",
+      "N0": 10000000,
+      "K": 500000000.0,
+      "passage_gens": 10.0,
+      "dilution": 50,
+      "t50_median": 740.0,
+      "t50_ci95": [
+        730.0,
+        750.0
+      ],
+      "final_frac_mean": 0.8755251425
+    },
+    "gut_aerobic": {
+      "description": "Gut-like, aerobic niche, 1:10 dilution",
+      "N0": 10000000,
+      "K": 100000000.0,
+      "passage_gens": 8.0,
+      "dilution": 10,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 0.39180829819999996
+    },
+    "gut_anaerobic": {
+      "description": "Gut-like, anaerobic, 1:5 dilution",
+      "N0": 10000000,
+      "K": 50000000.0,
+      "passage_gens": 12.0,
+      "dilution": 5,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 0.00024729505000000004
+    },
+    "soil": {
+      "description": "Soil, slow growth, minimal dilution",
+      "N0": 5000000,
+      "K": 10000000.0,
+      "passage_gens": 20.0,
+      "dilution": 2,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 5.194e-07
+    }
+  },
+  "triple_best": {
+    "rich_lab": {
+      "description": "LB, 37C, 1:100 dilution",
+      "N0": 10000000,
+      "K": 1000000000.0,
+      "passage_gens": 6.6,
+      "dilution": 100,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 0.0
+    },
+    "minimal_lab": {
+      "description": "M9 minimal, 37C, 1:50 dilution",
+      "N0": 10000000,
+      "K": 500000000.0,
+      "passage_gens": 10.0,
+      "dilution": 50,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 0.0
+    },
+    "gut_aerobic": {
+      "description": "Gut-like, aerobic niche, 1:10 dilution",
+      "N0": 10000000,
+      "K": 100000000.0,
+      "passage_gens": 8.0,
+      "dilution": 10,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 0.0
+    },
+    "gut_anaerobic": {
+      "description": "Gut-like, anaerobic, 1:5 dilution",
+      "N0": 10000000,
+      "K": 50000000.0,
+      "passage_gens": 12.0,
+      "dilution": 5,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 0.0
+    },
+    "soil": {
+      "description": "Soil, slow growth, minimal dilution",
+      "N0": 5000000,
+      "K": 10000000.0,
+      "passage_gens": 20.0,
+      "dilution": 2,
+      "t50_median": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ],
+      "final_frac_mean": 0.0
+    }
+  }
+}

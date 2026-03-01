@@ -35,10 +35,10 @@
         "log10_rate": -8.04575737872986,
         "meets_NIH": true,
         "stochastic": {
-          "t50_median": 178.2,
+          "t50_median": 59.4,
           "t50_ci95": [
-            178.2,
-            178.2
+            59.4,
+            59.4
           ],
           "final_frac_mean": 1.0
         }
@@ -63,10 +63,10 @@
         "log10_rate": -7.045757479377593,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 151.79999999999998,
+          "t50_median": 52.8,
           "t50_ci95": [
-            151.79999999999998,
-            151.79999999999998
+            52.8,
+            52.8
           ],
           "final_frac_mean": 1.0
         }
@@ -105,7 +105,7 @@
             1000.0,
             1000.0
           ],
-          "final_frac_mean": 0.0005018522
+          "final_frac_mean": 0.0015
         }
       },
       "rho=0.001": {
@@ -128,10 +128,10 @@
         "log10_rate": -8.045753078151154,
         "meets_NIH": true,
         "stochastic": {
-          "t50_median": 178.2,
+          "t50_median": 46.199999999999996,
           "t50_ci95": [
-            178.2,
-            178.2
+            46.199999999999996,
+            46.199999999999996
           ],
           "final_frac_mean": 1.0
         }
@@ -156,10 +156,10 @@
         "log10_rate": -7.0457570493177055,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 151.79999999999998,
+          "t50_median": 39.599999999999994,
           "t50_ci95": [
-            151.79999999999998,
-            151.79999999999998
+            39.599999999999994,
+            39.599999999999994
           ],
           "final_frac_mean": 1.0
         }
@@ -221,10 +221,10 @@
         "log10_rate": -8.045757446914083,
         "meets_NIH": true,
         "stochastic": {
-          "t50_median": 217.79999999999998,
+          "t50_median": 66.0,
           "t50_ci95": [
-            217.79999999999998,
-            217.79999999999998
+            66.0,
+            66.0
           ],
           "final_frac_mean": 1.0
         }
@@ -249,10 +249,10 @@
         "log10_rate": -7.045757486196016,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 184.79999999999998,
+          "t50_median": 52.8,
           "t50_ci95": [
-            184.79999999999998,
-            184.79999999999998
+            52.8,
+            52.8
           ],
           "final_frac_mean": 1.0
         }
@@ -291,7 +291,7 @@
             1000.0,
             1000.0
           ],
-          "final_frac_mean": 0.0061107755
+          "final_frac_mean": 0.0085052358
         }
       },
       "rho=0.001": {
@@ -314,10 +314,10 @@
         "log10_rate": -7.999960263872806,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 178.2,
+          "t50_median": 46.199999999999996,
           "t50_ci95": [
-            171.6,
-            178.2
+            46.199999999999996,
+            46.199999999999996
           ],
           "final_frac_mean": 1.0
         }
@@ -342,10 +342,10 @@
         "log10_rate": -6.999996026223671,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 145.2,
+          "t50_median": 33.0,
           "t50_ci95": [
-            145.2,
-            145.2
+            33.0,
+            33.0
           ],
           "final_frac_mean": 1.0
         }
@@ -407,12 +407,12 @@
         "log10_rate": -8.995678514386542,
         "meets_NIH": true,
         "stochastic": {
-          "t50_median": 264.0,
+          "t50_median": 165.0,
           "t50_ci95": [
-            257.4,
-            264.0
+            158.39999999999998,
+            165.0
           ],
-          "final_frac_mean": 0.9978052854
+          "final_frac_mean": 1.0
         }
       },
       "rho=0.02": {
@@ -435,10 +435,10 @@
         "log10_rate": -7.995678615034275,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 174.89999999999998,
+          "t50_median": 105.6,
           "t50_ci95": [
-            171.6,
-            178.2
+            105.6,
+            105.6
           ],
           "final_frac_mean": 1.0
         }
@@ -593,10 +593,10 @@
         "log10_rate": -7.999999888169185,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 178.2,
+          "t50_median": 85.8,
           "t50_ci95": [
-            171.6,
-            178.2
+            85.8,
+            85.8
           ],
           "final_frac_mean": 1.0
         }
@@ -621,10 +621,10 @@
         "log10_rate": -6.999999988816917,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 145.2,
+          "t50_median": 72.6,
           "t50_ci95": [
-            145.2,
-            145.2
+            72.6,
+            72.6
           ],
           "final_frac_mean": 1.0
         }
@@ -686,12 +686,12 @@
         "log10_rate": -8.995678582570765,
         "meets_NIH": true,
         "stochastic": {
-          "t50_median": 310.2,
+          "t50_median": 178.2,
           "t50_ci95": [
-            310.2,
-            316.79999999999995
+            171.6,
+            184.79999999999998
           ],
-          "final_frac_mean": 0.9968400754000001
+          "final_frac_mean": 0.9999989233500001
         }
       },
       "rho=0.02": {
@@ -714,10 +714,10 @@
         "log10_rate": -7.995678621852698,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 217.79999999999998,
+          "t50_median": 118.8,
           "t50_ci95": [
-            217.79999999999998,
-            217.79999999999998
+            118.8,
+            118.8
           ],
           "final_frac_mean": 1.0
         }
@@ -756,7 +756,7 @@
             1000.0,
             1000.0
           ],
-          "final_frac_mean": 0.0005018522
+          "final_frac_mean": 0.0020000027999999997
         }
       },
       "rho=0.001": {
@@ -779,10 +779,10 @@
         "log10_rate": -7.999995587590479,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 178.2,
+          "t50_median": 66.0,
           "t50_ci95": [
-            171.6,
-            178.2
+            66.0,
+            66.0
           ],
           "final_frac_mean": 1.0
         }
@@ -807,10 +807,10 @@
         "log10_rate": -6.999999558757031,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 145.2,
+          "t50_median": 52.8,
           "t50_ci95": [
-            145.2,
-            145.2
+            52.8,
+            52.8
           ],
           "final_frac_mean": 1.0
         }
@@ -872,10 +872,10 @@
         "log10_rate": -7.999999956353407,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 217.79999999999998,
+          "t50_median": 99.0,
           "t50_ci95": [
-            217.79999999999998,
-            217.79999999999998
+            99.0,
+            99.0
           ],
           "final_frac_mean": 1.0
         }
@@ -900,10 +900,10 @@
         "log10_rate": -6.99999999563534,
         "meets_NIH": false,
         "stochastic": {
-          "t50_median": 184.79999999999998,
+          "t50_median": 85.8,
           "t50_ci95": [
-            184.79999999999998,
-            184.79999999999998
+            85.8,
+            85.8
           ],
           "final_frac_mean": 1.0
         }
@@ -1237,31 +1237,31 @@
     "toxin_antitoxin+crispr_multi+overlapping_gene+auxotrophy": {
       "combined_rate": 8.65800024564375e-24,
       "log10_rate": -23.06258240620111,
-      "fitness_cost": 0.18,
+      "fitness_cost": 0.45,
       "meets_NIH": true
     },
     "toxin_antitoxin+crispr_multi+overlapping_gene+integrase_differentiation": {
       "combined_rate": 2.7745252541899997e-21,
       "log10_rate": -20.55681131781127,
-      "fitness_cost": 0.2,
+      "fitness_cost": 0.57,
       "meets_NIH": true
     },
     "toxin_antitoxin+crispr_multi+auxotrophy+integrase_differentiation": {
       "combined_rate": 8.552500245625e-23,
       "log10_rate": -22.067906904670103,
-      "fitness_cost": 0.18,
+      "fitness_cost": 0.48,
       "meets_NIH": true
     },
     "toxin_antitoxin+overlapping_gene+auxotrophy+integrase_differentiation": {
       "combined_rate": 2.7460100948585e-21,
       "log10_rate": -20.56129787054672,
-      "fitness_cost": 0.18,
+      "fitness_cost": 0.55,
       "meets_NIH": true
     },
     "crispr_multi+overlapping_gene+auxotrophy+integrase_differentiation": {
       "combined_rate": 9.6200002729375e-24,
       "log10_rate": -23.016824915640434,
-      "fitness_cost": 0.18,
+      "fitness_cost": 0.35,
       "meets_NIH": true
     }
   }

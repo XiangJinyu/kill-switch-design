@@ -58,25 +58,25 @@
     {
       "description": "Toxin-antitoxin, +ile (Chlebek 2023)",
       "observed_gen": 30,
-      "stochastic_median": 191.39999999999998,
+      "stochastic_median": 39.599999999999994,
       "stochastic_ci95": [
-        191.39999999999998,
-        191.39999999999998
+        39.599999999999994,
+        39.599999999999994
       ],
       "analytical": Infinity,
-      "ratio_stochastic": 6.379999999999999
+      "ratio_stochastic": 1.3199999999999998
     },
     {
       "description": "Overlapping gene, -ile (Chlebek 2023)",
       "observed_gen": 130,
       "observed_note": ">130 gen (7/10 lineages never reached 10%)",
-      "stochastic_median": 237.6,
+      "stochastic_median": 105.6,
       "stochastic_ci95": [
-        237.6,
-        237.6
+        105.6,
+        105.6
       ],
       "analytical": Infinity,
-      "ratio_stochastic": 1.8276923076923077
+      "ratio_stochastic": 0.8123076923076923
     }
   ]
 }
