@@ -5,9 +5,14 @@
       "overlapping_gene",
       "auxotrophy"
     ],
-    "escape_rate": 6.000000250000001e-18,
-    "log10_rate": -17.221848731520755,
-    "fitness_cost": 0.13
+    "rate": 6.0600002626e-18,
+    "log10_rate": -17.217527357014287,
+    "cost": 0.13,
+    "t50": 1000.0,
+    "t50_ci95": [
+      1000.0,
+      1000.0
+    ]
   },
   "ablations": [
     {
@@ -16,11 +21,16 @@
         "overlapping_gene",
         "auxotrophy"
       ],
-      "escape_rate": 1.0000001e-09,
-      "log10_rate": -8.999999956570553,
-      "fitness_cost": 0.08,
-      "log10_rate_increase": 8.2218487749502,
-      "fold_increase": 166666676.38888848
+      "rate": 1.010000101505e-09,
+      "log10_rate": -8.995678582570765,
+      "cost": 0.08,
+      "fold_increase": 166666676.19444403,
+      "log10_fold": 8.221848774443522,
+      "t50": 316.79999999999995,
+      "t50_ci95": [
+        310.2,
+        323.4
+      ]
     },
     {
       "removed": "overlapping_gene",
@@ -28,11 +38,16 @@
         "crispr_multi",
         "auxotrophy"
       ],
-      "escape_rate": 2.5000002500000002e-11,
-      "log10_rate": -10.602059947898516,
-      "fitness_cost": 0.08,
-      "log10_rate_increase": 6.619788783622237,
-      "fold_increase": 4166666.9097222122
+      "rate": 2.5000002512500004e-11,
+      "log10_rate": -10.602059947681369,
+      "cost": 0.08,
+      "fold_increase": 4125412.7770901993,
+      "log10_fold": 6.6154674093329175,
+      "t50": 1000.0,
+      "t50_ci95": [
+        1000.0,
+        1000.0
+      ]
     },
     {
       "removed": "auxotrophy",
@@ -40,11 +55,16 @@
         "crispr_multi",
         "overlapping_gene"
       ],
-      "escape_rate": 1.0000002500000001e-09,
-      "log10_rate": -8.999999891426393,
-      "fitness_cost": 0.1,
-      "log10_rate_increase": 8.22184884009436,
-      "fold_increase": 166666701.38888744
+      "rate": 1.010000260075e-09,
+      "log10_rate": -8.995678514386542,
+      "cost": 0.1,
+      "fold_increase": 166666702.36110955,
+      "log10_fold": 8.221848842627743,
+      "t50": 257.4,
+      "t50_ci95": [
+        257.4,
+        264.0
+      ]
     }
   ]
 }

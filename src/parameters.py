@@ -118,6 +118,6 @@ CORRELATION_FACTORS = {
 # Simulation defaults
 # =============================================================================
 DEFAULT_SEED = 42
-DEFAULT_N0 = 1e6  # initial population size
-DEFAULT_GENERATIONS = 500
+DEFAULT_N0 = 1e7  # initial population size (post-dilution from K/100)
+DEFAULT_GENERATIONS = 1000
 DEFAULT_REPLICATES = 100

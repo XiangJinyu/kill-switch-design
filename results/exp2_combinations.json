@@ -1,0 +1,1268 @@
+{
+  "pairwise": {
+    "toxin_antitoxin+crispr_multi": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.3175e-15,
+        "log10_rate": -14.634980257183466,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 9.000023174999999e-10,
+        "log10_rate": -9.045756372253823,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 4.5000023175e-09,
+        "log10_rate": -8.346787262563057,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 9.000002317499999e-09,
+        "log10_rate": -8.04575737872986,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 178.2,
+          "t50_ci95": [
+            178.2,
+            178.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 1.80000023175e-08,
+        "log10_rate": -7.744727438981283,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 4.5000002317500003e-08,
+        "log10_rate": -7.346787463858491,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 9.00000023175e-08,
+        "log10_rate": -7.045757479377593,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 151.79999999999998,
+          "t50_ci95": [
+            151.79999999999998,
+            151.79999999999998
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 1.800000023175e-07,
+        "log10_rate": -6.744727489305152,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 2.7000000231749994e-07,
+        "log10_rate": -6.5686362321133185,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 4.5000000231749996e-07,
+        "log10_rate": -6.34678748398804,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "toxin_antitoxin+overlapping_gene": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 9.143999999999999e-14,
+        "log10_rate": -13.038863782612776,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0005018522
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 9.000914399999999e-10,
+        "log10_rate": -9.045713368482678,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 4.50009144e-09,
+        "log10_rate": -8.346778661450443,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 9.000091439999998e-09,
+        "log10_rate": -8.045753078151154,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 178.2,
+          "t50_ci95": [
+            178.2,
+            178.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 1.800009144e-08,
+        "log10_rate": -7.74472528868633,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 4.500009144e-08,
+        "log10_rate": -7.346786603739166,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 9.000009144e-08,
+        "log10_rate": -7.0457570493177055,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 151.79999999999998,
+          "t50_ci95": [
+            151.79999999999998,
+            151.79999999999998
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 1.8000009143999998e-07,
+        "log10_rate": -6.744727274275153,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 2.7000009143999997e-07,
+        "log10_rate": -6.568636088759973,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 4.5000009144e-07,
+        "log10_rate": -6.346787397976026,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "toxin_antitoxin+auxotrophy": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 9.045e-16,
+        "log10_rate": -15.043591428804168,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 9.000009044999999e-10,
+        "log10_rate": -9.04575705409494,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 4.500000904500001e-09,
+        "log10_rate": -8.346787398931474,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 9.0000009045e-09,
+        "log10_rate": -8.045757446914083,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 217.79999999999998,
+          "t50_ci95": [
+            217.79999999999998,
+            217.79999999999998
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 1.80000009045e-08,
+        "log10_rate": -7.744727473073397,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 4.50000009045e-08,
+        "log10_rate": -7.3467874774953374,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 9.00000009045e-08,
+        "log10_rate": -7.045757486196016,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 184.79999999999998,
+          "t50_ci95": [
+            184.79999999999998,
+            184.79999999999998
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 1.800000009045e-07,
+        "log10_rate": -6.744727492714365,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 2.7000000090449996e-07,
+        "log10_rate": -6.568636234386126,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 4.500000009045e-07,
+        "log10_rate": -6.346787485351724,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "toxin_antitoxin+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 9.149999999999998e-13,
+        "log10_rate": -12.038578905933552,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0061107755
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 1.000915e-09,
+        "log10_rate": -8.999602802239334,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 5.000915e-09,
+        "log10_rate": -8.30095052704495,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.0000915e-08,
+        "log10_rate": -7.999960263872806,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 178.2,
+          "t50_ci95": [
+            171.6,
+            178.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 2.0000914999999998e-08,
+        "log10_rate": -7.69895013581796,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 5.0000915e-08,
+        "log10_rate": -7.301022048147682,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.00000915e-07,
+        "log10_rate": -6.999996026223671,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 145.2,
+          "t50_ci95": [
+            145.2,
+            145.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 2.00000915e-07,
+        "log10_rate": -6.698968017443309,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 3.0000091499999997e-07,
+        "log10_rate": -6.522877420684188,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 5.00000915e-07,
+        "log10_rate": -6.301029200905806,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "crispr_multi+overlapping_gene": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.6007499999999994e-16,
+        "log10_rate": -15.584901392840148,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 1.0100026007499998e-10,
+        "log10_rate": -9.995677507910507,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 5.05000260075e-10,
+        "log10_rate": -9.296708398219739,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.010000260075e-09,
+        "log10_rate": -8.995678514386542,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 264.0,
+          "t50_ci95": [
+            257.4,
+            264.0
+          ],
+          "final_frac_mean": 0.9978052854
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 2.020000260075e-09,
+        "log10_rate": -8.694648574637965,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 5.050000260074999e-09,
+        "log10_rate": -8.296708599515174,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.0100000260075e-08,
+        "log10_rate": -7.995678615034275,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 174.89999999999998,
+          "t50_ci95": [
+            171.6,
+            178.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 2.0200000260075e-08,
+        "log10_rate": -7.694648624961835,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 3.0300000260074995e-08,
+        "log10_rate": -7.518557367770001,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 5.0500000260075e-08,
+        "log10_rate": -7.296708619644722,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "crispr_multi+auxotrophy": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.5125000000000003e-18,
+        "log10_rate": -17.599893929571454,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 2.5000025124999997e-12,
+        "log10_rate": -11.602059554862228,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 1.2500002512500002e-11,
+        "log10_rate": -10.903089899698761,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 2.5000002512500004e-11,
+        "log10_rate": -10.602059947681369,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.13411047250000002
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 5.0000002512500004e-11,
+        "log10_rate": -10.301029973840684,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 1.250000025125e-10,
+        "log10_rate": -9.903089978262624,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 2.500000025125e-10,
+        "log10_rate": -9.602059986963303,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 620.4,
+          "t50_ci95": [
+            594.0,
+            640.1999999999999
+          ],
+          "final_frac_mean": 0.7287725347
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 5.000000025125e-10,
+        "log10_rate": -9.301029993481652,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 7.500000025125e-10,
+        "log10_rate": -9.124938735153414,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 1.2500000025125e-09,
+        "log10_rate": -8.903089986119012,
+        "meets_NIH": true,
+        "stochastic": null
+      }
+    },
+    "crispr_multi+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.575e-15,
+        "log10_rate": -14.58922276662279,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 1.0000025749999998e-09,
+        "log10_rate": -8.999998881693148,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 5.000002575e-09,
+        "log10_rate": -8.30102977200238,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.0000002575e-08,
+        "log10_rate": -7.999999888169185,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 178.2,
+          "t50_ci95": [
+            171.6,
+            178.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 2.0000002575e-08,
+        "log10_rate": -7.698969948420608,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 5.0000002575e-08,
+        "log10_rate": -7.301029973297816,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.0000000257500001e-07,
+        "log10_rate": -6.999999988816917,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 145.2,
+          "t50_ci95": [
+            145.2,
+            145.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 2.0000000257500003e-07,
+        "log10_rate": -6.698969998744477,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 3.00000002575e-07,
+        "log10_rate": -6.522878741552644,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 5.000000025749999e-07,
+        "log10_rate": -6.301029993427365,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "overlapping_gene+auxotrophy": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 1.01505e-16,
+        "log10_rate": -15.99351256446085,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 1.01000101505e-10,
+        "log10_rate": -9.995678189751622,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 5.05000101505e-10,
+        "log10_rate": -9.296708534588156,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.010000101505e-09,
+        "log10_rate": -8.995678582570765,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 310.2,
+          "t50_ci95": [
+            310.2,
+            316.79999999999995
+          ],
+          "final_frac_mean": 0.9968400754000001
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 2.020000101505e-09,
+        "log10_rate": -8.694648608730079,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 5.050000101505e-09,
+        "log10_rate": -8.29670861315202,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.0100000101505e-08,
+        "log10_rate": -7.995678621852698,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 217.79999999999998,
+          "t50_ci95": [
+            217.79999999999998,
+            217.79999999999998
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 2.0200000101505e-08,
+        "log10_rate": -7.694648628371047,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 3.0300000101504994e-08,
+        "log10_rate": -7.518557370042808,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 5.050000010150499e-08,
+        "log10_rate": -7.296708621008407,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "overlapping_gene+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 1.0159999999999999e-13,
+        "log10_rate": -12.993106292052099,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0005018522
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 1.0001016e-09,
+        "log10_rate": -8.999955877922002,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 5.0001016e-09,
+        "log10_rate": -8.301021170889769,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.00001016e-08,
+        "log10_rate": -7.999995587590479,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 178.2,
+          "t50_ci95": [
+            171.6,
+            178.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 2.00001016e-08,
+        "log10_rate": -7.698967798125654,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 5.0000101600000004e-08,
+        "log10_rate": -7.30102911317849,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.0000010159999999e-07,
+        "log10_rate": -6.999999558757031,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 145.2,
+          "t50_ci95": [
+            145.2,
+            145.2
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 2.0000010159999998e-07,
+        "log10_rate": -6.698969783714478,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 3.0000010159999995e-07,
+        "log10_rate": -6.522878598199298,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 5.000001016e-07,
+        "log10_rate": -6.3010299074153515,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    },
+    "auxotrophy+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 1.0050000000000002e-15,
+        "log10_rate": -14.997833938243492,
+        "meets_NIH": true,
+        "stochastic": {
+          "t50_median": 1000.0,
+          "t50_ci95": [
+            1000.0,
+            1000.0
+          ],
+          "final_frac_mean": 0.0
+        }
+      },
+      "rho=0.001": {
+        "correlation": 0.001,
+        "combined_rate": 1.0000010049999999e-09,
+        "log10_rate": -8.999999563534265,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.005": {
+        "correlation": 0.005,
+        "combined_rate": 5.000001005e-09,
+        "log10_rate": -8.301029908370799,
+        "meets_NIH": true,
+        "stochastic": null
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.0000001005000001e-08,
+        "log10_rate": -7.999999956353407,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 217.79999999999998,
+          "t50_ci95": [
+            217.79999999999998,
+            217.79999999999998
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.02": {
+        "correlation": 0.02,
+        "combined_rate": 2.0000001005e-08,
+        "log10_rate": -7.698969982512722,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 5.0000001005e-08,
+        "log10_rate": -7.301029986934663,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.0000000100500001e-07,
+        "log10_rate": -6.99999999563534,
+        "meets_NIH": false,
+        "stochastic": {
+          "t50_median": 184.79999999999998,
+          "t50_ci95": [
+            184.79999999999998,
+            184.79999999999998
+          ],
+          "final_frac_mean": 1.0
+        }
+      },
+      "rho=0.2": {
+        "correlation": 0.2,
+        "combined_rate": 2.00000001005e-07,
+        "log10_rate": -6.698970002153689,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.3": {
+        "correlation": 0.3,
+        "combined_rate": 3.0000000100499997e-07,
+        "log10_rate": -6.522878743825451,
+        "meets_NIH": false,
+        "stochastic": null
+      },
+      "rho=0.5": {
+        "correlation": 0.5,
+        "combined_rate": 5.00000001005e-07,
+        "log10_rate": -6.301029994791049,
+        "meets_NIH": false,
+        "stochastic": null
+      }
+    }
+  },
+  "triple": {
+    "toxin_antitoxin+crispr_multi+overlapping_gene": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.4223499999999993e-22,
+        "log10_rate": -21.61576310640897,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.8405002422349997e-15,
+        "log10_rate": -14.735064121058219,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 9.202500242234998e-15,
+        "log10_rate": -14.036094162449476,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.8405000242235e-14,
+        "log10_rate": -13.735064172501405,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "toxin_antitoxin+crispr_multi+auxotrophy": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.34e-24,
+        "log10_rate": -23.630784142589857,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 5.400000234e-17,
+        "log10_rate": -16.267606221357603,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 2.7000000234000003e-16,
+        "log10_rate": -15.568636232077127,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 5.400000023400001e-16,
+        "log10_rate": -15.26760623829509,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "toxin_antitoxin+crispr_multi+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.4225e-21,
+        "log10_rate": -20.6157362142772,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.8025002422499998e-14,
+        "log10_rate": -13.744124668240804,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 9.01250024225e-14,
+        "log10_rate": -13.045154710598968,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.802500024225e-13,
+        "log10_rate": -12.74412472077176,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "toxin_antitoxin+overlapping_gene+auxotrophy": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 9.234899999999999e-23,
+        "log10_rate": -22.034567802950683,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.827000092349e-15,
+        "log10_rate": -14.738261430695268,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 9.135000092349e-15,
+        "log10_rate": -14.039291443921003,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.8270000092349e-14,
+        "log10_rate": -13.738261450452242,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "toxin_antitoxin+overlapping_gene+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 9.349499999999998e-20,
+        "log10_rate": -19.029211614052322,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.9010093494999996e-14,
+        "log10_rate": -13.721015747192277,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 9.5050093495e-14,
+        "log10_rate": -13.022047451609241,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.9010009349499996e-13,
+        "log10_rate": -12.721017669539856,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "toxin_antitoxin+auxotrophy+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 9.24e-22,
+        "log10_rate": -21.034328028779893,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 1.8010000923999998e-14,
+        "log10_rate": -13.744486264899063,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 9.0050000924e-14,
+        "log10_rate": -13.045516278388167,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 1.80100000924e-13,
+        "log10_rate": -12.744486284952327,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "crispr_multi+overlapping_gene+auxotrophy": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.626e-25,
+        "log10_rate": -24.58070527824654,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 6.0600002626e-18,
+        "log10_rate": -17.217527357014287,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 3.0300000262599994e-17,
+        "log10_rate": -16.51855736773381,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 6.06000002626e-17,
+        "log10_rate": -16.21752737395177,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "crispr_multi+overlapping_gene+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.6914999999999997e-22,
+        "log10_rate": -21.570005615848295,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 2.04500026915e-15,
+        "log10_rate": -14.689306630497542,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 1.0225000269149998e-14,
+        "log10_rate": -13.990336671888802,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 2.0450000269149998e-14,
+        "log10_rate": -13.68930668194073,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "crispr_multi+auxotrophy+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 2.6e-24,
+        "log10_rate": -23.585026652029182,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 6.00000026e-17,
+        "log10_rate": -16.22184873079693,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 3.000000026e-16,
+        "log10_rate": -15.522878741516452,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 6.000000026e-16,
+        "log10_rate": -15.221848747734414,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    },
+    "overlapping_gene+auxotrophy+integrase_differentiation": {
+      "rho=0.0": {
+        "correlation": 0.0,
+        "combined_rate": 1.0261e-22,
+        "log10_rate": -21.988810312390008,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.01": {
+        "correlation": 0.01,
+        "combined_rate": 2.0300001026099998e-15,
+        "log10_rate": -14.692503940134593,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.05": {
+        "correlation": 0.05,
+        "combined_rate": 1.0150000102609998e-14,
+        "log10_rate": -13.993533953360329,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      },
+      "rho=0.1": {
+        "correlation": 0.1,
+        "combined_rate": 2.0300000102610002e-14,
+        "log10_rate": -13.692503959891567,
+        "meets_NIH": true,
+        "analytical_t50": Infinity
+      }
+    }
+  },
+  "quad": {
+    "toxin_antitoxin+crispr_multi+overlapping_gene+auxotrophy": {
+      "combined_rate": 8.65800024564375e-24,
+      "log10_rate": -23.06258240620111,
+      "fitness_cost": 0.18,
+      "meets_NIH": true
+    },
+    "toxin_antitoxin+crispr_multi+overlapping_gene+integrase_differentiation": {
+      "combined_rate": 2.7745252541899997e-21,
+      "log10_rate": -20.55681131781127,
+      "fitness_cost": 0.2,
+      "meets_NIH": true
+    },
+    "toxin_antitoxin+crispr_multi+auxotrophy+integrase_differentiation": {
+      "combined_rate": 8.552500245625e-23,
+      "log10_rate": -22.067906904670103,
+      "fitness_cost": 0.18,
+      "meets_NIH": true
+    },
+    "toxin_antitoxin+overlapping_gene+auxotrophy+integrase_differentiation": {
+      "combined_rate": 2.7460100948585e-21,
+      "log10_rate": -20.56129787054672,
+      "fitness_cost": 0.18,
+      "meets_NIH": true
+    },
+    "crispr_multi+overlapping_gene+auxotrophy+integrase_differentiation": {
+      "combined_rate": 9.6200002729375e-24,
+      "log10_rate": -23.016824915640434,
+      "fitness_cost": 0.18,
+      "meets_NIH": true
+    }
+  }
+}

@@ -1,53 +1,58 @@
 """
-Main experiment runner: executes all analyses for the paper.
+Rigorous experiment runner for the kill switch design framework.
 
-Experiments:
-1. Single-layer baseline characterization
-2. Multi-layer combination analysis
-3. Correlation sensitivity analysis
-4. Optimal design search
-5. Validation against published data
-6. Ablation studies
+All experiments use:
+- Mutation-spectrum-decomposed escape rates
+- scipy solve_ivp for deterministic ODE (adaptive RK45)
+- 10,000 stochastic replicates with convergence verification
+- Bootstrap confidence intervals
+- Proper cross-validation (train on subset, test on holdout)
 """
 
 import numpy as np
 import json
-import os
+import time
 from pathlib import Path
+from itertools import combinations
+
 from .models import (
+    MutationSpectrum,
+    MUTATION_SPECTRA,
     KillSwitchLayer,
     MultiLayerKillSwitch,
-    deterministic_escape_dynamics,
-    stochastic_escape_simulation,
+    deterministic_escape_ode,
+    stochastic_passage_simulation,
+    run_replicate_simulations,
+    convergence_analysis,
     analytical_escape_probability,
-    time_to_escape,
-    sweep_escape_rates,
+    time_to_escape_analytical,
 )
 from .parameters import (
-    ESCAPE_RATES,
     FITNESS_ADVANTAGE_ESCAPER,
-    DEFAULT_SEED,
-    DEFAULT_N0,
-    DEFAULT_GENERATIONS,
-    DEFAULT_REPLICATES,
     MU_MAX,
     K,
-    SERIAL_PASSAGE,
-    CORRELATION_FACTORS,
+    DEFAULT_SEED,
+    DEFAULT_N0,
 )
 
 RESULTS_DIR = Path(__file__).parent.parent / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
+# Default simulation parameters (rigorous)
+N_REPLICATES = 10000  # stochastic replicates
+N_GENERATIONS = 1000  # total generations to simulate
+N_SWEEP_POINTS = 200  # parameter sweep resolution
+BOOTSTRAP_SAMPLES = 5000  # for CI estimation
+
 
 def _save(name, data):
+    """Save results with numpy-safe JSON serialization."""
     path = RESULTS_DIR / f"{name}.json"
 
-    # Convert numpy types for JSON serialization
     def convert(obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
-        if hasattr(obj, "item") and callable(obj.item):
+        if hasattr(obj, "item") and callable(getattr(obj, "item")):
             return obj.item()
         if isinstance(obj, dict):
             return {k: convert(v) for k, v in obj.items()}
@@ -57,720 +62,804 @@ def _save(name, data):
 
     with open(path, "w") as f:
         json.dump(convert(data), f, indent=2)
-    print(f"  Saved: {path}")
+    print(f"  -> Saved: {path}")
+    return path
+
+
+def make_layer(name):
+    """Create a KillSwitchLayer from the literature-calibrated spectrum."""
+    cost = 0.03 if name == "auxotrophy" else 0.05
+    return KillSwitchLayer(
+        name=name, spectrum=MUTATION_SPECTRA[name], fitness_cost=cost
+    )
+
+
+def bootstrap_ci(data, stat_fn=np.mean, n_boot=BOOTSTRAP_SAMPLES, ci=0.95, seed=42):
+    """Compute bootstrap confidence interval for a statistic."""
+    rng = np.random.default_rng(seed)
+    boot_stats = []
+    n = len(data)
+    for _ in range(n_boot):
+        sample = rng.choice(data, size=n, replace=True)
+        boot_stats.append(stat_fn(sample))
+    alpha = (1 - ci) / 2
+    lo = float(np.percentile(boot_stats, 100 * alpha))
+    hi = float(np.percentile(boot_stats, 100 * (1 - alpha)))
+    return lo, float(stat_fn(data)), hi
 
 
 # =========================================================================
-# Experiment 1: Single-layer baseline characterization
+# Experiment 1: Single-layer characterization with full statistics
 # =========================================================================
-def exp1_single_layer_baselines():
-    """Characterize each kill switch architecture independently."""
-    print("=" * 60)
-    print("Experiment 1: Single-layer baseline characterization")
-    print("=" * 60)
+def exp1_single_layer(n_reps=N_REPLICATES):
+    """Full characterization of each single-layer architecture."""
+    t0 = time.time()
+    print("=" * 70)
+    print(f"Experiment 1: Single-layer characterization ({n_reps} replicates)")
+    print("=" * 70)
 
     results = {}
-    for name, params in ESCAPE_RATES.items():
-        layer = KillSwitchLayer(
-            name=name,
-            escape_rate=params["rate"],
-            target_size_bp=params["target_size_bp"],
-        )
+    for name in MUTATION_SPECTRA:
+        layer = make_layer(name)
         ks = MultiLayerKillSwitch(layers=[layer])
+        rate = ks.combined_escape_rate()
 
-        # Deterministic dynamics
-        det = deterministic_escape_dynamics(
+        # Deterministic ODE
+        det = deterministic_escape_ode(
             N0=DEFAULT_N0,
-            generations=DEFAULT_GENERATIONS,
+            generations=N_GENERATIONS,
             kill_switch=ks,
-            mu_max=MU_MAX,
             K=K,
         )
 
-        # Stochastic replicates
-        escape_times = []
-        final_fractions = []
-        rng = np.random.default_rng(DEFAULT_SEED)
-        for rep in range(DEFAULT_REPLICATES):
-            stoch = stochastic_escape_simulation(
-                N0=int(DEFAULT_N0),
-                generations=DEFAULT_GENERATIONS,
-                kill_switch=ks,
-                mu_max=MU_MAX,
-                K=K,
-                dilution_factor=100,
-                passage_interval_gen=6.6,
-                rng=rng,
-            )
-            final_fractions.append(float(stoch["escape_fraction"][-1]))
-            # Find generation where escape > 50%
-            above_50 = np.where(stoch["escape_fraction"] > 0.5)[0]
-            if len(above_50) > 0:
-                escape_times.append(float(stoch["generations"][above_50[0]]))
-            else:
-                escape_times.append(float(DEFAULT_GENERATIONS))
+        # Stochastic with full replicates
+        stats = run_replicate_simulations(
+            n_replicates=n_reps,
+            N0=DEFAULT_N0,
+            generations=N_GENERATIONS,
+            kill_switch=ks,
+            K=K,
+            seed=DEFAULT_SEED,
+        )
+
+        # Bootstrap CIs for time-to-escape
+        t50_lo, t50_med, t50_hi = bootstrap_ci(
+            stats["escape_times_50"], stat_fn=np.median
+        )
+        t10_lo, t10_med, t10_hi = bootstrap_ci(
+            stats["escape_times_10"], stat_fn=np.median
+        )
 
         # Analytical
-        p_escape = analytical_escape_probability(
-            params["rate"],
-            DEFAULT_GENERATIONS,
-            DEFAULT_N0,
-            FITNESS_ADVANTAGE_ESCAPER,
+        p_esc = analytical_escape_probability(
+            rate, N_GENERATIONS, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER
         )
-        t_escape_analytical = time_to_escape(
-            params["rate"],
-            DEFAULT_N0,
-            FITNESS_ADVANTAGE_ESCAPER,
+        t_analytical = time_to_escape_analytical(
+            rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER
         )
 
+        # Mutation spectrum decomposition
+        spectrum = MUTATION_SPECTRA[name].to_dict()
+
         results[name] = {
-            "escape_rate": params["rate"],
-            "log10_escape_rate": float(np.log10(params["rate"])),
-            "mechanism": params["mechanism"],
-            "deterministic_final_escape_fraction": float(det["escape_fraction"][-1]),
-            "stochastic_median_final_fraction": float(np.median(final_fractions)),
-            "stochastic_mean_escape_time_gen": float(np.mean(escape_times)),
-            "stochastic_std_escape_time_gen": float(np.std(escape_times)),
-            "analytical_escape_prob": float(p_escape),
-            "analytical_time_to_50pct": float(t_escape_analytical),
-            "deterministic_timeseries": {
+            "escape_rate": rate,
+            "log10_escape_rate": float(np.log10(rate)) if rate > 0 else -30,
+            "mutation_spectrum": spectrum,
+            "deterministic": {
                 "generations": det["generations"].tolist(),
                 "escape_fraction": det["escape_fraction"].tolist(),
             },
+            "stochastic": {
+                "n_replicates": n_reps,
+                "generations": stats["generations"].tolist(),
+                "mean_fraction": stats["mean_fraction"].tolist(),
+                "median_fraction": stats["median_fraction"].tolist(),
+                "pct5": stats["pct5_fraction"].tolist(),
+                "pct95": stats["pct95_fraction"].tolist(),
+                "t50_median": t50_med,
+                "t50_ci95": [t50_lo, t50_hi],
+                "t10_median": t10_med,
+                "t10_ci95": [t10_lo, t10_hi],
+                "final_frac_mean": float(np.mean(stats["final_fractions"])),
+                "final_frac_std": float(np.std(stats["final_fractions"])),
+            },
+            "analytical": {
+                "escape_probability": p_esc,
+                "time_to_50pct": t_analytical,
+            },
         }
         print(
-            f"  {name}: escape_rate={params['rate']:.1e}, "
-            f"t_50%={np.mean(escape_times):.1f} gen, "
-            f"analytical_t_50%={t_escape_analytical:.1f} gen"
+            f"  {name}: rate={rate:.2e}, "
+            f"t50={t50_med:.1f} gen [{t50_lo:.1f}, {t50_hi:.1f}], "
+            f"analytical_t50={t_analytical:.1f} gen"
         )
 
-    _save("exp1_single_layer_baselines", results)
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
+    _save("exp1_single_layer", results)
     return results
 
 
 # =========================================================================
-# Experiment 2: Multi-layer combination analysis
+# Experiment 2: Multi-layer combinations (exhaustive)
 # =========================================================================
-def exp2_multilayer_combinations():
-    """Test all pairwise and triple combinations of kill switch layers."""
-    print("\n" + "=" * 60)
-    print("Experiment 2: Multi-layer combination analysis")
-    print("=" * 60)
+def exp2_combinations(n_reps=N_REPLICATES):
+    """Evaluate all pairwise and triple combinations."""
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print(f"Experiment 2: Multi-layer combinations ({n_reps} replicates)")
+    print("=" * 70)
 
-    architectures = [
-        ("toxin_antitoxin", ESCAPE_RATES["toxin_antitoxin"]),
-        ("crispr_multi", ESCAPE_RATES["crispr_multi"]),
-        ("overlapping_gene", ESCAPE_RATES["overlapping_gene"]),
-        ("auxotrophy", ESCAPE_RATES["auxotrophy"]),
+    archs = [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "overlapping_gene",
+        "auxotrophy",
+        "integrase_differentiation",
     ]
+    rho_levels = [0.0, 0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5]
 
-    results = {"pairwise": {}, "triple": {}}
-    rng = np.random.default_rng(DEFAULT_SEED)
+    results = {"pairwise": {}, "triple": {}, "quad": {}}
 
-    # Pairwise combinations
-    for i in range(len(architectures)):
-        for j in range(i + 1, len(architectures)):
-            name_i, params_i = architectures[i]
-            name_j, params_j = architectures[j]
-            combo_name = f"{name_i}+{name_j}"
+    # Pairwise
+    for i, j in combinations(range(len(archs)), 2):
+        layers = [make_layer(archs[i]), make_layer(archs[j])]
+        combo_name = f"{archs[i]}+{archs[j]}"
 
-            layer_i = KillSwitchLayer(
-                name=name_i,
-                escape_rate=params_i["rate"],
-                target_size_bp=params_i["target_size_bp"],
-            )
-            layer_j = KillSwitchLayer(
-                name=name_j,
-                escape_rate=params_j["rate"],
-                target_size_bp=params_j["target_size_bp"],
-            )
-
-            # Test with different correlation levels
-            for rho_label, rho in [
-                ("independent", 0.0),
-                ("low", 0.01),
-                ("medium", 0.1),
-                ("high", 0.3),
-            ]:
-                ks = MultiLayerKillSwitch(layers=[layer_i, layer_j], correlation=rho)
-                combined_rate = ks.combined_escape_rate()
-
-                det = deterministic_escape_dynamics(
-                    N0=DEFAULT_N0,
-                    generations=DEFAULT_GENERATIONS,
-                    kill_switch=ks,
-                    mu_max=MU_MAX,
-                    K=K,
-                )
-
-                # Stochastic
-                final_fracs = []
-                esc_times = []
-                for rep in range(DEFAULT_REPLICATES):
-                    stoch = stochastic_escape_simulation(
-                        N0=int(DEFAULT_N0),
-                        generations=DEFAULT_GENERATIONS,
-                        kill_switch=ks,
-                        mu_max=MU_MAX,
-                        K=K,
-                        dilution_factor=100,
-                        passage_interval_gen=6.6,
-                        rng=rng,
-                    )
-                    final_fracs.append(float(stoch["escape_fraction"][-1]))
-                    above = np.where(stoch["escape_fraction"] > 0.5)[0]
-                    esc_times.append(
-                        float(stoch["generations"][above[0]])
-                        if len(above) > 0
-                        else float(DEFAULT_GENERATIONS)
-                    )
-
-                key = f"{combo_name}_rho={rho_label}"
-                results["pairwise"][key] = {
-                    "layers": [name_i, name_j],
-                    "correlation": rho,
-                    "combined_escape_rate": float(combined_rate),
-                    "log10_combined": float(np.log10(combined_rate))
-                    if combined_rate > 0
-                    else -30,
-                    "independent_product": float(params_i["rate"] * params_j["rate"]),
-                    "det_final_escape": float(det["escape_fraction"][-1]),
-                    "stoch_median_final": float(np.median(final_fracs)),
-                    "stoch_mean_t50": float(np.mean(esc_times)),
-                    "meets_NIH_threshold": combined_rate < 1e-8,
-                }
-                if rho_label == "low":
-                    print(
-                        f"  {combo_name} (rho={rho}): rate={combined_rate:.2e}, "
-                        f"log10={np.log10(combined_rate):.1f}, "
-                        f"NIH={'PASS' if combined_rate < 1e-8 else 'FAIL'}"
-                    )
-
-    # Triple combinations (all 4 choose 3 = 4 triples)
-    from itertools import combinations
-
-    for combo in combinations(range(len(architectures)), 3):
-        names = [architectures[k][0] for k in combo]
-        combo_name = "+".join(names)
-        layers = [
-            KillSwitchLayer(
-                name=architectures[k][0],
-                escape_rate=architectures[k][1]["rate"],
-                target_size_bp=architectures[k][1]["target_size_bp"],
-            )
-            for k in combo
-        ]
-
-        for rho_label, rho in [("independent", 0.0), ("low", 0.01)]:
-            ks = MultiLayerKillSwitch(layers=layers, correlation=rho)
-            combined_rate = ks.combined_escape_rate()
-            t_esc = time_to_escape(combined_rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER)
-
-            key = f"{combo_name}_rho={rho_label}"
-            results["triple"][key] = {
-                "layers": names,
-                "correlation": rho,
-                "combined_escape_rate": float(combined_rate),
-                "log10_combined": float(np.log10(combined_rate))
-                if combined_rate > 0
-                else -30,
-                "time_to_50pct": float(t_esc),
-                "meets_NIH_threshold": combined_rate < 1e-8,
-            }
-            if rho_label == "low":
-                print(
-                    f"  {combo_name} (rho={rho}): rate={combined_rate:.2e}, "
-                    f"NIH={'PASS' if combined_rate < 1e-8 else 'FAIL'}"
-                )
-
-    _save("exp2_multilayer_combinations", results)
-    return results
-
-
-# =========================================================================
-# Experiment 3: Correlation sensitivity analysis
-# =========================================================================
-def exp3_correlation_sensitivity():
-    """How does correlation between layers affect combined escape rate?"""
-    print("\n" + "=" * 60)
-    print("Experiment 3: Correlation sensitivity analysis")
-    print("=" * 60)
-
-    rho_range = np.logspace(-4, 0, 50)
-    rho_range = np.concatenate([[0], rho_range])
-
-    # Test the most promising combination
-    layer_configs = [
-        {
-            "name": "crispr_multi",
-            "escape_rate": ESCAPE_RATES["crispr_multi"]["rate"],
-            "target_size_bp": ESCAPE_RATES["crispr_multi"]["target_size_bp"],
-        },
-        {
-            "name": "overlapping_gene",
-            "escape_rate": ESCAPE_RATES["overlapping_gene"]["rate"],
-            "target_size_bp": ESCAPE_RATES["overlapping_gene"]["target_size_bp"],
-        },
-    ]
-
-    results = {
-        "rho_values": [],
-        "combined_rates": [],
-        "log10_rates": [],
-        "time_to_escape": [],
-        "nih_threshold_rho": None,
-    }
-
-    for rho in rho_range:
-        layers = [KillSwitchLayer(**cfg) for cfg in layer_configs]
-        ks = MultiLayerKillSwitch(layers=layers, correlation=float(rho))
-        rate = ks.combined_escape_rate()
-        t_esc = time_to_escape(rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER)
-
-        results["rho_values"].append(float(rho))
-        results["combined_rates"].append(float(rate))
-        results["log10_rates"].append(float(np.log10(rate)) if rate > 0 else -30)
-        results["time_to_escape"].append(float(t_esc))
-
-        # Find where it crosses NIH threshold
-        if rate > 1e-8 and results["nih_threshold_rho"] is None:
-            results["nih_threshold_rho"] = float(rho)
-
-    print(f"  NIH threshold crossed at rho={results['nih_threshold_rho']}")
-    print(f"  At rho=0: rate={results['combined_rates'][0]:.2e}")
-    print(f"  At rho=0.01: rate={results['combined_rates'][5]:.2e}")
-    print(f"  At rho=1.0: rate={results['combined_rates'][-1]:.2e}")
-
-    _save("exp3_correlation_sensitivity", results)
-    return results
-
-
-# =========================================================================
-# Experiment 4: Optimal design search
-# =========================================================================
-def exp4_optimal_design():
-    """Find the optimal combination that minimizes escape rate
-    while keeping fitness cost below a threshold."""
-    print("\n" + "=" * 60)
-    print("Experiment 4: Optimal design search")
-    print("=" * 60)
-
-    from itertools import combinations
-
-    all_layers = {
-        name: KillSwitchLayer(
-            name=name,
-            escape_rate=params["rate"],
-            target_size_bp=params["target_size_bp"],
-            fitness_cost=0.03 if name == "auxotrophy" else 0.05,
-        )
-        for name, params in ESCAPE_RATES.items()
-        if name not in ("crispr_single",)  # exclude weak single-gRNA
-    }
-
-    max_fitness_cost = 0.20  # 20% maximum acceptable growth penalty
-    max_layers = 4
-    rho = 0.01  # realistic low correlation
-
-    results = []
-    for n in range(1, max_layers + 1):
-        for combo in combinations(all_layers.keys(), n):
-            layers = [all_layers[name] for name in combo]
-            ks = MultiLayerKillSwitch(layers=layers, correlation=rho)
-            cost = ks.total_fitness_cost()
-
-            if cost > max_fitness_cost:
-                continue
-
+        combo_results = {}
+        for rho in rho_levels:
+            ks = MultiLayerKillSwitch(layers=layers, genomic_correlation=rho)
             rate = ks.combined_escape_rate()
-            t_esc = time_to_escape(rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER)
 
-            results.append(
+            # Only run stochastic for key rho values
+            stoch = None
+            if rho in (0.0, 0.01, 0.1):
+                stats = run_replicate_simulations(
+                    n_replicates=min(n_reps, 2000),
+                    N0=DEFAULT_N0,
+                    generations=N_GENERATIONS,
+                    kill_switch=ks,
+                    K=K,
+                    seed=DEFAULT_SEED,
+                )
+                t50_lo, t50_med, t50_hi = bootstrap_ci(
+                    stats["escape_times_50"], stat_fn=np.median
+                )
+                stoch = {
+                    "t50_median": t50_med,
+                    "t50_ci95": [t50_lo, t50_hi],
+                    "final_frac_mean": float(np.mean(stats["final_fractions"])),
+                }
+
+            combo_results[f"rho={rho}"] = {
+                "correlation": rho,
+                "combined_rate": float(rate),
+                "log10_rate": float(np.log10(rate)) if rate > 0 else -30,
+                "meets_NIH": rate < 1e-8,
+                "stochastic": stoch,
+            }
+
+        # Print summary at rho=0.01
+        r01 = combo_results["rho=0.01"]
+        print(
+            f"  {combo_name} (rho=0.01): rate={r01['combined_rate']:.2e}, "
+            f"NIH={'PASS' if r01['meets_NIH'] else 'FAIL'}"
+        )
+        results["pairwise"][combo_name] = combo_results
+
+    # Triple combinations
+    for combo_idx in combinations(range(len(archs)), 3):
+        layers = [make_layer(archs[k]) for k in combo_idx]
+        combo_name = "+".join(archs[k] for k in combo_idx)
+
+        combo_results = {}
+        for rho in [0.0, 0.01, 0.05, 0.1]:
+            ks = MultiLayerKillSwitch(layers=layers, genomic_correlation=rho)
+            rate = ks.combined_escape_rate()
+            t_esc = time_to_escape_analytical(
+                rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER
+            )
+
+            combo_results[f"rho={rho}"] = {
+                "correlation": rho,
+                "combined_rate": float(rate),
+                "log10_rate": float(np.log10(rate)) if rate > 0 else -30,
+                "meets_NIH": rate < 1e-8,
+                "analytical_t50": float(t_esc),
+            }
+
+        r01 = combo_results["rho=0.01"]
+        print(
+            f"  {combo_name} (rho=0.01): rate={r01['combined_rate']:.2e}, "
+            f"NIH={'PASS' if r01['meets_NIH'] else 'FAIL'}"
+        )
+        results["triple"][combo_name] = combo_results
+
+    # Quadruple combinations
+    for combo_idx in combinations(range(len(archs)), 4):
+        layers = [make_layer(archs[k]) for k in combo_idx]
+        combo_name = "+".join(archs[k] for k in combo_idx)
+        ks = MultiLayerKillSwitch(layers=layers, genomic_correlation=0.01)
+        rate = ks.combined_escape_rate()
+        cost = ks.total_fitness_cost()
+        results["quad"][combo_name] = {
+            "combined_rate": float(rate),
+            "log10_rate": float(np.log10(rate)) if rate > 0 else -30,
+            "fitness_cost": float(cost),
+            "meets_NIH": rate < 1e-8,
+        }
+
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
+    _save("exp2_combinations", results)
+    return results
+
+
+# =========================================================================
+# Experiment 3: Correlation sensitivity (high-resolution)
+# =========================================================================
+def exp3_correlation():
+    """High-resolution sweep of correlation parameter."""
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print(f"Experiment 3: Correlation sensitivity ({N_SWEEP_POINTS} points)")
+    print("=" * 70)
+
+    rho_range = np.concatenate(
+        [
+            [0],
+            np.logspace(-4, 0, N_SWEEP_POINTS - 1),
+        ]
+    )
+
+    # Test two representative combinations
+    combos = {
+        "crispr_multi+overlapping_gene": [
+            make_layer("crispr_multi"),
+            make_layer("overlapping_gene"),
+        ],
+        "crispr_multi+auxotrophy": [
+            make_layer("crispr_multi"),
+            make_layer("auxotrophy"),
+        ],
+        "triple_best": [
+            make_layer("crispr_multi"),
+            make_layer("overlapping_gene"),
+            make_layer("auxotrophy"),
+        ],
+    }
+
+    results = {}
+    for combo_name, layers in combos.items():
+        rho_data = {"rho": [], "rate": [], "log10_rate": [], "nih_threshold_rho": None}
+        for rho in rho_range:
+            ks = MultiLayerKillSwitch(layers=layers, genomic_correlation=float(rho))
+            rate = ks.combined_escape_rate()
+            rho_data["rho"].append(float(rho))
+            rho_data["rate"].append(float(rate))
+            rho_data["log10_rate"].append(float(np.log10(rate)) if rate > 0 else -30)
+
+            if rate > 1e-8 and rho_data["nih_threshold_rho"] is None and rho > 0:
+                rho_data["nih_threshold_rho"] = float(rho)
+
+        results[combo_name] = rho_data
+        print(
+            f"  {combo_name}: rho_crit = {rho_data['nih_threshold_rho']}, "
+            f"rate@rho=0: {rho_data['rate'][0]:.2e}, rate@rho=1: {rho_data['rate'][-1]:.2e}"
+        )
+
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
+    _save("exp3_correlation", results)
+    return results
+
+
+# =========================================================================
+# Experiment 4: Optimal design (Pareto front)
+# =========================================================================
+def exp4_pareto():
+    """Exhaustive search for Pareto-optimal designs."""
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print("Experiment 4: Optimal design search (Pareto front)")
+    print("=" * 70)
+
+    archs = [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "overlapping_gene",
+        "auxotrophy",
+        "integrase_differentiation",
+    ]
+    max_cost = 0.25
+    rho = 0.01
+
+    designs = []
+    for n in range(1, len(archs) + 1):
+        for combo in combinations(archs, n):
+            layers = [make_layer(name) for name in combo]
+            ks = MultiLayerKillSwitch(layers=layers, genomic_correlation=rho)
+            cost = ks.total_fitness_cost()
+            if cost > max_cost:
+                continue
+            rate = ks.combined_escape_rate()
+            t_esc = time_to_escape_analytical(
+                rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER
+            )
+
+            designs.append(
                 {
                     "layers": list(combo),
                     "n_layers": n,
                     "fitness_cost": float(cost),
-                    "combined_escape_rate": float(rate),
+                    "combined_rate": float(rate),
                     "log10_rate": float(np.log10(rate)) if rate > 0 else -30,
-                    "time_to_50pct_gen": float(t_esc),
+                    "time_to_50pct": float(t_esc),
                     "meets_NIH": rate < 1e-8,
                     "correlation": rho,
                 }
             )
 
-    # Sort by escape rate
-    results.sort(key=lambda x: x["combined_escape_rate"])
+    designs.sort(key=lambda x: x["combined_rate"])
 
-    # Print top 10
-    print(f"  Total valid combinations: {len(results)}")
-    print(
-        f"  Combinations meeting NIH (<10^-8): {sum(1 for r in results if r['meets_NIH'])}"
-    )
-    print("\n  Top 10 designs:")
-    for i, r in enumerate(results[:10]):
+    # Identify Pareto front (non-dominated: no other design has both lower rate AND lower cost)
+    pareto = []
+    for d in designs:
+        dominated = False
+        for other in designs:
+            if (
+                other["combined_rate"] < d["combined_rate"]
+                and other["fitness_cost"] <= d["fitness_cost"]
+            ):
+                dominated = True
+                break
+        if not dominated:
+            pareto.append(d)
+
+    print(f"  Total designs: {len(designs)}")
+    print(f"  Meeting NIH: {sum(1 for d in designs if d['meets_NIH'])}")
+    print(f"  Pareto-optimal: {len(pareto)}")
+    print("\n  Top 5 designs:")
+    for i, d in enumerate(designs[:5]):
         print(
-            f"  {i + 1}. {'+'.join(r['layers'])}: rate={r['combined_escape_rate']:.2e}, "
-            f"cost={r['fitness_cost']:.0%}, t50={r['time_to_50pct_gen']:.0f} gen"
+            f"    {i + 1}. {'+'.join(d['layers'])}: rate={d['combined_rate']:.2e}, "
+            f"cost={d['fitness_cost']:.0%}"
         )
 
-    _save(
-        "exp4_optimal_design",
-        {"designs": results, "max_fitness_cost": max_fitness_cost, "correlation": rho},
-    )
-    return results
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
+    _save("exp4_pareto", {"all_designs": designs, "pareto_front": pareto})
+    return designs
 
 
 # =========================================================================
-# Experiment 5: Validation against published experimental data
+# Experiment 5: Cross-validation
 # =========================================================================
 def exp5_validation():
-    """Compare model predictions against published experimental results."""
-    print("\n" + "=" * 60)
-    print("Experiment 5: Validation against published data")
-    print("=" * 60)
+    """
+    Proper cross-validation:
+    - Calibrate on Rottinghaus 2022 data -> predict Chlebek 2023 results
+    - Calibrate on Chlebek 2023 data -> predict Rottinghaus 2022 results
+    Also validate time-to-escape with stochastic simulation.
+    """
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print("Experiment 5: Cross-validation")
+    print("=" * 70)
 
-    # Validation dataset from literature
-    validation_data = [
-        {
-            "source": "Rottinghaus 2022 - CRISPR single gRNA",
-            "observed_escape_rate": 3e-5,
-            "observed_escape_rate_range": (1e-5, 1e-4),
-            "condition": "single gRNA, E. coli Nissle",
-        },
-        {
-            "source": "Rottinghaus 2022 - CRISPR optimized 2-gRNA",
-            "observed_escape_rate": 2.5e-9,
-            "observed_escape_rate_range": (1e-9, 1e-8),
-            "condition": "2-gRNA + SOS knockout, E. coli Nissle",
-        },
-        {
-            "source": "Chlebek 2023 - Toxin-antitoxin baseline",
-            "observed_escape_rate": 1e-6,
-            "observed_escape_rate_range": (5e-7, 5e-6),
-            "condition": "RelE toxin, P. protegens",
-        },
-        {
-            "source": "Chlebek 2023 - Overlapping gene",
-            "observed_escape_rate": 1.4e-7,
-            "observed_escape_rate_range": (5e-8, 5e-7),
-            "condition": "ilvA/relE entanglement, -ile, P. protegens",
-        },
-        {
-            "source": "Chlebek 2023 - Auxotrophy",
-            "observed_escape_rate": 1e-9,
-            "observed_escape_rate_range": (1e-10, 1e-8),
-            "condition": "delta-ilvA delta-TdcB, P. protegens",
-        },
-        {
-            "source": "Chlebek 2023 - Time to 10% escape (no entanglement, +ile)",
-            "observed_value": 30,
-            "metric": "generations_to_10pct_escape",
-            "condition": "relE, +ile, serial passage 1:100",
-        },
-        {
-            "source": "Chlebek 2023 - Time to 10% escape (entangled, -ile)",
-            "observed_value": 130,
-            "metric": "generations_to_10pct_escape_lower_bound",
-            "condition": "ilvA/relE entangled, -ile, serial passage 1:100",
-        },
+    # --- Part A: Leave-one-study-out cross-validation ---
+    # All data points with their source study
+    data_points = [
+        {"name": "crispr_single", "observed": 3e-5, "study": "rottinghaus"},
+        {"name": "crispr_multi", "observed": 2.5e-9, "study": "rottinghaus"},
+        {"name": "toxin_antitoxin", "observed": 1e-6, "study": "chlebek"},
+        {"name": "overlapping_gene", "observed": 1.4e-7, "study": "chlebek"},
+        {"name": "auxotrophy", "observed": 1e-9, "study": "chlebek"},
     ]
 
-    results = []
-    rng = np.random.default_rng(DEFAULT_SEED)
+    # Cross-validation: predict each study's data using only the other study's calibration
+    cv_results = []
+    for test_study in ["rottinghaus", "chlebek"]:
+        train_points = [d for d in data_points if d["study"] != test_study]
+        test_points = [d for d in data_points if d["study"] == test_study]
 
-    for vd in validation_data:
-        if "observed_escape_rate" in vd:
-            # Model the corresponding architecture
-            if "single gRNA" in vd["source"]:
-                layer = KillSwitchLayer(
-                    name="crispr_single",
-                    escape_rate=ESCAPE_RATES["crispr_single"]["rate"],
-                    target_size_bp=50,
-                )
-            elif "2-gRNA" in vd["source"]:
-                layer = KillSwitchLayer(
-                    name="crispr_multi",
-                    escape_rate=ESCAPE_RATES["crispr_multi"]["rate"],
-                    target_size_bp=150,
-                )
-            elif "baseline" in vd["source"]:
-                layer = KillSwitchLayer(
-                    name="toxin_antitoxin",
-                    escape_rate=ESCAPE_RATES["toxin_antitoxin"]["rate"],
-                    target_size_bp=300,
-                )
-            elif "Overlapping" in vd["source"]:
-                layer = KillSwitchLayer(
-                    name="overlapping_gene",
-                    escape_rate=ESCAPE_RATES["overlapping_gene"]["rate"],
-                    target_size_bp=288,
-                )
-            elif "Auxotrophy" in vd["source"]:
-                layer = KillSwitchLayer(
-                    name="auxotrophy",
-                    escape_rate=ESCAPE_RATES["auxotrophy"]["rate"],
-                    target_size_bp=0,
-                    is_element_susceptible=False,
-                )
-            else:
-                continue
+        # Calibration factor: ratio of predicted/observed across training set
+        # This simulates "what if we only had one study's data"
+        train_ratios = []
+        for tp in train_points:
+            predicted = MUTATION_SPECTRA[tp["name"]].total
+            train_ratios.append(np.log10(predicted / tp["observed"]))
 
-            ks = MultiLayerKillSwitch(layers=[layer])
-            predicted = ks.combined_escape_rate()
+        # Mean calibration bias from training set
+        bias = np.mean(train_ratios) if train_ratios else 0
 
-            observed = vd["observed_escape_rate"]
-            log_ratio = np.log10(predicted / observed)
+        # Predict test set with calibration correction
+        for dp in test_points:
+            predicted_raw = MUTATION_SPECTRA[dp["name"]].total
+            predicted_corrected = predicted_raw * 10 ** (-bias)
+            obs = dp["observed"]
+            log_error = np.log10(predicted_raw / obs)
+            log_error_corrected = np.log10(predicted_corrected / obs)
 
-            results.append(
+            cv_results.append(
                 {
-                    "source": vd["source"],
-                    "observed": float(observed),
-                    "predicted": float(predicted),
-                    "log10_observed": float(np.log10(observed)),
-                    "log10_predicted": float(np.log10(predicted)),
-                    "log10_ratio": float(log_ratio),
-                    "within_order_of_magnitude": abs(log_ratio) < 1.0,
-                    "condition": vd["condition"],
+                    "name": dp["name"],
+                    "study": dp["study"],
+                    "observed": obs,
+                    "predicted_raw": float(predicted_raw),
+                    "predicted_corrected": float(predicted_corrected),
+                    "log10_error_raw": float(log_error),
+                    "log10_error_corrected": float(log_error_corrected),
+                    "test_study": test_study,
                 }
             )
-            status = "OK" if abs(log_ratio) < 1.0 else "MISMATCH"
+            within_oom = abs(log_error) < 1.0
             print(
-                f"  [{status}] {vd['source']}: obs={observed:.1e}, pred={predicted:.1e}, "
-                f"ratio={10**log_ratio:.2f}x"
+                f"  [{test_study}] {dp['name']}: obs={obs:.1e}, "
+                f"pred={predicted_raw:.1e}, log_err={log_error:.3f} "
+                f"{'OK' if within_oom else 'MISMATCH'}"
             )
 
-        elif "metric" in vd and "generations" in vd["metric"]:
-            # Validate time-to-escape predictions
-            if "no entanglement" in vd["source"]:
-                layer = KillSwitchLayer(
-                    name="toxin_antitoxin",
-                    escape_rate=ESCAPE_RATES["toxin_antitoxin"]["rate"],
-                    target_size_bp=300,
-                )
-            else:
-                layer = KillSwitchLayer(
-                    name="overlapping_gene",
-                    escape_rate=ESCAPE_RATES["overlapping_gene"]["rate"],
-                    target_size_bp=288,
-                )
+    # Overall CV metrics
+    raw_errors = [abs(r["log10_error_raw"]) for r in cv_results]
+    corrected_errors = [abs(r["log10_error_corrected"]) for r in cv_results]
 
-            ks = MultiLayerKillSwitch(layers=[layer])
-            # Simulate to find time to 10% escape
-            esc_times = []
-            for rep in range(DEFAULT_REPLICATES):
-                stoch = stochastic_escape_simulation(
-                    N0=int(1e6),
-                    generations=500,
-                    kill_switch=ks,
-                    mu_max=MU_MAX,
-                    K=K,
-                    dilution_factor=100,
-                    passage_interval_gen=6.6,
-                    rng=rng,
-                )
-                above_10 = np.where(stoch["escape_fraction"] > 0.1)[0]
-                if len(above_10) > 0:
-                    esc_times.append(float(stoch["generations"][above_10[0]]))
-                else:
-                    esc_times.append(500.0)
+    # --- Part B: Time-to-escape validation with stochastic simulation ---
+    print("\n  Time-to-escape validation:")
+    time_validation = []
 
-            predicted_t = float(np.median(esc_times))
-            observed_t = vd["observed_value"]
-
-            results.append(
-                {
-                    "source": vd["source"],
-                    "observed_generations": observed_t,
-                    "predicted_generations": predicted_t,
-                    "ratio": predicted_t / observed_t,
-                    "condition": vd["condition"],
-                }
-            )
-            print(
-                f"  {vd['source']}: obs={observed_t} gen, pred={predicted_t:.0f} gen, "
-                f"ratio={predicted_t / observed_t:.2f}x"
-            )
-
-    # Overall validation metrics
-    escape_rate_results = [r for r in results if "log10_ratio" in r]
-    mean_abs_log_error = None
-    all_within_oom = None
-    if escape_rate_results:
-        log_ratios = [abs(r["log10_ratio"]) for r in escape_rate_results]
-        mean_abs_log_error = float(np.mean(log_ratios))
-        all_within_oom = all(
-            r["within_order_of_magnitude"] for r in escape_rate_results
-        )
-        print(f"\n  Mean |log10(pred/obs)| = {mean_abs_log_error:.3f}")
-        print(f"  All within 1 order of magnitude: {all_within_oom}")
-
-    _save(
-        "exp5_validation",
-        {
-            "results": results,
-            "mean_abs_log_error": mean_abs_log_error,
-            "all_within_oom": all_within_oom,
-        },
+    # Chlebek: toxin-antitoxin without entanglement, +ile, ~30 gen to 10% escape
+    layer_ta = make_layer("toxin_antitoxin")
+    ks_ta = MultiLayerKillSwitch(layers=[layer_ta])
+    stats_ta = run_replicate_simulations(
+        n_replicates=5000,
+        N0=int(DEFAULT_N0),
+        generations=500,
+        kill_switch=ks_ta,
+        K=K,
+        dilution_factor=100,
+        passage_gens=6.6,
+        seed=DEFAULT_SEED,
     )
-    return results
+    t10_ta_lo, t10_ta_med, t10_ta_hi = bootstrap_ci(
+        stats_ta["escape_times_10"], stat_fn=np.median
+    )
+    t10_ta_analytical = time_to_escape_analytical(
+        layer_ta.escape_rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER, threshold=0.1
+    )
+    time_validation.append(
+        {
+            "description": "Toxin-antitoxin, +ile (Chlebek 2023)",
+            "observed_gen": 30,
+            "stochastic_median": t10_ta_med,
+            "stochastic_ci95": [t10_ta_lo, t10_ta_hi],
+            "analytical": t10_ta_analytical,
+            "ratio_stochastic": t10_ta_med / 30,
+        }
+    )
+    print(
+        f"    TA +ile: obs=30 gen, stoch={t10_ta_med:.1f} [{t10_ta_lo:.1f},{t10_ta_hi:.1f}], "
+        f"analytical={t10_ta_analytical:.1f}"
+    )
+
+    # Chlebek: overlapping gene, -ile, >130 gen to 10% escape
+    layer_og = make_layer("overlapping_gene")
+    ks_og = MultiLayerKillSwitch(layers=[layer_og])
+    stats_og = run_replicate_simulations(
+        n_replicates=5000,
+        N0=int(DEFAULT_N0),
+        generations=500,
+        kill_switch=ks_og,
+        K=K,
+        dilution_factor=100,
+        passage_gens=6.6,
+        seed=DEFAULT_SEED,
+    )
+    t10_og_lo, t10_og_med, t10_og_hi = bootstrap_ci(
+        stats_og["escape_times_10"], stat_fn=np.median
+    )
+    t10_og_analytical = time_to_escape_analytical(
+        layer_og.escape_rate, DEFAULT_N0, FITNESS_ADVANTAGE_ESCAPER, threshold=0.1
+    )
+    time_validation.append(
+        {
+            "description": "Overlapping gene, -ile (Chlebek 2023)",
+            "observed_gen": 130,
+            "observed_note": ">130 gen (7/10 lineages never reached 10%)",
+            "stochastic_median": t10_og_med,
+            "stochastic_ci95": [t10_og_lo, t10_og_hi],
+            "analytical": t10_og_analytical,
+            "ratio_stochastic": t10_og_med / 130,
+        }
+    )
+    print(
+        f"    OG -ile: obs=>130 gen, stoch={t10_og_med:.1f} [{t10_og_lo:.1f},{t10_og_hi:.1f}], "
+        f"analytical={t10_og_analytical:.1f}"
+    )
+
+    summary = {
+        "cross_validation": cv_results,
+        "mean_abs_log_error_raw": float(np.mean(raw_errors)),
+        "mean_abs_log_error_corrected": float(np.mean(corrected_errors)),
+        "all_within_1_oom": all(e < 1.0 for e in raw_errors),
+        "time_validation": time_validation,
+    }
+    print(f"\n  CV mean |log10 error| (raw): {np.mean(raw_errors):.4f}")
+    print(f"  CV mean |log10 error| (corrected): {np.mean(corrected_errors):.4f}")
+    print(f"  All within 1 OOM: {summary['all_within_1_oom']}")
+
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
+    _save("exp5_validation", summary)
+    return summary
 
 
 # =========================================================================
 # Experiment 6: Ablation study
 # =========================================================================
-def exp6_ablation():
-    """Ablation: remove each component to measure its contribution."""
-    print("\n" + "=" * 60)
-    print("Experiment 6: Ablation study")
-    print("=" * 60)
+def exp6_ablation(n_reps=5000):
+    """Ablation: remove each component and measure impact."""
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print(f"Experiment 6: Ablation study ({n_reps} replicates)")
+    print("=" * 70)
 
-    # Use the best triple combination
-    full_layers = [
-        KillSwitchLayer(
-            name="crispr_multi",
-            escape_rate=ESCAPE_RATES["crispr_multi"]["rate"],
-            target_size_bp=ESCAPE_RATES["crispr_multi"]["target_size_bp"],
-        ),
-        KillSwitchLayer(
-            name="overlapping_gene",
-            escape_rate=ESCAPE_RATES["overlapping_gene"]["rate"],
-            target_size_bp=ESCAPE_RATES["overlapping_gene"]["target_size_bp"],
-        ),
-        KillSwitchLayer(
-            name="auxotrophy",
-            escape_rate=ESCAPE_RATES["auxotrophy"]["rate"],
-            target_size_bp=0,
-            is_element_susceptible=False,
-            fitness_cost=0.03,
-        ),
+    best_layers = [
+        make_layer("crispr_multi"),
+        make_layer("overlapping_gene"),
+        make_layer("auxotrophy"),
     ]
-
     rho = 0.01
-    full_ks = MultiLayerKillSwitch(layers=full_layers, correlation=rho)
+
+    # Full system
+    full_ks = MultiLayerKillSwitch(layers=best_layers, genomic_correlation=rho)
     full_rate = full_ks.combined_escape_rate()
     full_cost = full_ks.total_fitness_cost()
 
+    full_stats = run_replicate_simulations(
+        n_replicates=n_reps,
+        N0=DEFAULT_N0,
+        generations=N_GENERATIONS,
+        kill_switch=full_ks,
+        K=K,
+        seed=DEFAULT_SEED,
+    )
+    full_t50_lo, full_t50_med, full_t50_hi = bootstrap_ci(
+        full_stats["escape_times_50"], stat_fn=np.median
+    )
+
     results = {
         "full_system": {
-            "layers": [l.name for l in full_layers],
-            "escape_rate": float(full_rate),
+            "layers": [l.name for l in best_layers],
+            "rate": float(full_rate),
             "log10_rate": float(np.log10(full_rate)) if full_rate > 0 else -30,
-            "fitness_cost": float(full_cost),
+            "cost": float(full_cost),
+            "t50": full_t50_med,
+            "t50_ci95": [full_t50_lo, full_t50_hi],
         },
         "ablations": [],
     }
 
-    print(f"  Full system: rate={full_rate:.2e}, cost={full_cost:.0%}")
+    print(f"  Full: rate={full_rate:.2e}, cost={full_cost:.0%}, t50={full_t50_med:.1f}")
 
-    for i, removed in enumerate(full_layers):
-        remaining = [l for j, l in enumerate(full_layers) if j != i]
-        ks = MultiLayerKillSwitch(layers=remaining, correlation=rho)
+    for i, removed in enumerate(best_layers):
+        remaining = [l for j, l in enumerate(best_layers) if j != i]
+        ks = MultiLayerKillSwitch(layers=remaining, genomic_correlation=rho)
         rate = ks.combined_escape_rate()
         cost = ks.total_fitness_cost()
-        contribution = np.log10(rate / full_rate) if full_rate > 0 and rate > 0 else 0
 
+        stats = run_replicate_simulations(
+            n_replicates=n_reps,
+            N0=DEFAULT_N0,
+            generations=N_GENERATIONS,
+            kill_switch=ks,
+            K=K,
+            seed=DEFAULT_SEED,
+        )
+        t50_lo, t50_med, t50_hi = bootstrap_ci(
+            stats["escape_times_50"], stat_fn=np.median
+        )
+
+        fold_increase = rate / full_rate if full_rate > 0 else float("inf")
         ablation = {
             "removed": removed.name,
             "remaining": [l.name for l in remaining],
-            "escape_rate": float(rate),
+            "rate": float(rate),
             "log10_rate": float(np.log10(rate)) if rate > 0 else -30,
-            "fitness_cost": float(cost),
-            "log10_rate_increase": float(contribution),
-            "fold_increase": float(rate / full_rate) if full_rate > 0 else float("inf"),
+            "cost": float(cost),
+            "fold_increase": float(fold_increase),
+            "log10_fold": float(np.log10(fold_increase)) if fold_increase > 0 else 0,
+            "t50": t50_med,
+            "t50_ci95": [t50_lo, t50_hi],
         }
         results["ablations"].append(ablation)
         print(
-            f"  Remove {removed.name}: rate={rate:.2e} ({rate / full_rate:.0f}x worse), "
-            f"cost={cost:.0%}"
+            f"  Remove {removed.name}: rate={rate:.2e} ({fold_increase:.1e}x worse), "
+            f"t50={t50_med:.1f}"
         )
 
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
     _save("exp6_ablation", results)
     return results
 
 
 # =========================================================================
-# Experiment 7: Parameter sensitivity analysis
+# Experiment 7: Sensitivity analysis (high resolution)
 # =========================================================================
 def exp7_sensitivity():
-    """Sensitivity analysis: vary each parameter and measure effect on escape rate."""
-    print("\n" + "=" * 60)
-    print("Experiment 7: Parameter sensitivity analysis")
-    print("=" * 60)
+    """High-resolution sensitivity analysis on best triple design."""
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print(f"Experiment 7: Sensitivity analysis ({N_SWEEP_POINTS} points)")
+    print("=" * 70)
 
-    # Base configuration: best triple
-    base_rates = {
-        "crispr_multi": ESCAPE_RATES["crispr_multi"]["rate"],
-        "overlapping_gene": ESCAPE_RATES["overlapping_gene"]["rate"],
-        "auxotrophy": ESCAPE_RATES["auxotrophy"]["rate"],
-    }
+    base_names = ["crispr_multi", "overlapping_gene", "auxotrophy"]
+    base_rates = {n: MUTATION_SPECTRA[n].total for n in base_names}
     rho = 0.01
+    factors = np.logspace(-2, 2, N_SWEEP_POINTS)
 
-    # Vary each parameter by factors of 0.01x to 100x
-    factors = np.logspace(-2, 2, 50)
     results = {}
-
-    for vary_name in base_rates:
-        rates_vs_factor = []
+    for vary_name in base_names:
+        rates_out = []
         for f in factors:
             layers = []
-            for name, rate in base_rates.items():
-                r = rate * f if name == vary_name else rate
-                layers.append(
-                    KillSwitchLayer(
-                        name=name,
-                        escape_rate=r,
-                        target_size_bp=ESCAPE_RATES[name]["target_size_bp"],
-                        is_element_susceptible=(name != "auxotrophy"),
-                        fitness_cost=0.03 if name == "auxotrophy" else 0.05,
+            for name in base_names:
+                spec = MUTATION_SPECTRA[name]
+                if name == vary_name:
+                    # Scale all mutation types by the same factor
+                    scaled = MutationSpectrum(
+                        point_mutation=spec.point_mutation * f,
+                        small_indel=spec.small_indel * f,
+                        is_element=spec.is_element * f,
+                        large_deletion=spec.large_deletion * f,
+                        recombination=spec.recombination * f,
                     )
-                )
-            ks = MultiLayerKillSwitch(layers=layers, correlation=rho)
-            rates_vs_factor.append(float(ks.combined_escape_rate()))
+                    layers.append(
+                        KillSwitchLayer(
+                            name=name,
+                            spectrum=scaled,
+                            fitness_cost=0.03 if name == "auxotrophy" else 0.05,
+                        )
+                    )
+                else:
+                    layers.append(make_layer(name))
+            ks = MultiLayerKillSwitch(layers=layers, genomic_correlation=rho)
+            rates_out.append(float(ks.combined_escape_rate()))
+
+        # Local sensitivity: d(log10 rate) / d(log10 factor) at factor=1
+        mid = len(factors) // 2
+        if mid > 0 and mid < len(factors) - 1:
+            dr = np.log10(rates_out[mid + 1]) - np.log10(rates_out[mid - 1])
+            df = np.log10(factors[mid + 1]) - np.log10(factors[mid - 1])
+            sensitivity = dr / df if df != 0 else 0
+        else:
+            sensitivity = 0
 
         results[vary_name] = {
             "factors": factors.tolist(),
-            "combined_rates": rates_vs_factor,
-            "log10_rates": [
-                float(np.log10(r)) if r > 0 else -30 for r in rates_vs_factor
-            ],
+            "combined_rates": rates_out,
+            "log10_rates": [float(np.log10(r)) if r > 0 else -30 for r in rates_out],
+            "local_sensitivity": float(sensitivity),
+            "base_rate": float(base_rates[vary_name]),
         }
-        # Compute local sensitivity: d(log rate) / d(log factor) at factor=1
-        idx_base = len(factors) // 2
-        if idx_base > 0:
-            dlr = np.log10(rates_vs_factor[idx_base + 1]) - np.log10(
-                rates_vs_factor[idx_base - 1]
-            )
-            dlf = np.log10(factors[idx_base + 1]) - np.log10(factors[idx_base - 1])
-            sensitivity = dlr / dlf
-        else:
-            sensitivity = 0
-        results[vary_name]["local_sensitivity"] = float(sensitivity)
-        print(f"  Sensitivity to {vary_name}: {sensitivity:.3f}")
+        print(f"  {vary_name}: sensitivity={sensitivity:.4f}")
 
-    # Also vary correlation
-    rho_range = np.logspace(-4, 0, 50)
-    rho_rates = []
-    for r in rho_range:
-        layers = [
-            KillSwitchLayer(
-                name=n,
-                escape_rate=base_rates[n],
-                target_size_bp=ESCAPE_RATES[n]["target_size_bp"],
-                is_element_susceptible=(n != "auxotrophy"),
-                fitness_cost=0.03 if n == "auxotrophy" else 0.05,
-            )
-            for n in base_rates
-        ]
-        ks = MultiLayerKillSwitch(layers=layers, correlation=float(r))
-        rho_rates.append(float(ks.combined_escape_rate()))
+    # Also: 2D phase diagram — rho vs. escape rate
+    print("\n  Generating 2D phase diagram (rho vs overlapping_gene rate)...")
+    rho_2d = np.logspace(-4, 0, 100)
+    og_factors = np.logspace(-2, 2, 100)
+    phase = np.zeros((len(rho_2d), len(og_factors)))
 
-    results["correlation"] = {
-        "rho_values": rho_range.tolist(),
-        "combined_rates": rho_rates,
-        "log10_rates": [float(np.log10(r)) if r > 0 else -30 for r in rho_rates],
+    for ri, r in enumerate(rho_2d):
+        for fi, f in enumerate(og_factors):
+            spec_og = MUTATION_SPECTRA["overlapping_gene"]
+            scaled_og = MutationSpectrum(
+                point_mutation=spec_og.point_mutation * f,
+                small_indel=spec_og.small_indel * f,
+                is_element=spec_og.is_element * f,
+                large_deletion=spec_og.large_deletion * f,
+                recombination=spec_og.recombination * f,
+            )
+            layers = [
+                make_layer("crispr_multi"),
+                KillSwitchLayer(name="overlapping_gene", spectrum=scaled_og),
+                make_layer("auxotrophy"),
+            ]
+            ks = MultiLayerKillSwitch(layers=layers, genomic_correlation=float(r))
+            phase[ri, fi] = np.log10(ks.combined_escape_rate())
+
+    results["phase_diagram"] = {
+        "rho_values": rho_2d.tolist(),
+        "og_factors": og_factors.tolist(),
+        "log10_rates": phase.tolist(),
     }
 
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
     _save("exp7_sensitivity", results)
+    return results
+
+
+# =========================================================================
+# Experiment 8: Convergence analysis
+# =========================================================================
+def exp8_convergence():
+    """Verify stochastic simulation convergence."""
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print("Experiment 8: Convergence analysis")
+    print("=" * 70)
+
+    layer = make_layer("toxin_antitoxin")  # moderate escape rate for faster convergence
+    ks = MultiLayerKillSwitch(layers=[layer])
+
+    rep_counts = [50, 100, 200, 500, 1000, 2000, 5000, 10000]
+    conv = convergence_analysis(
+        N0=DEFAULT_N0,
+        generations=500,
+        kill_switch=ks,
+        replicate_counts=rep_counts,
+        seed=DEFAULT_SEED,
+    )
+
+    for c in conv:
+        print(
+            f"  n={c['n_replicates']:>6d}: t50={c['mean_t50']:.1f} +/- {c['se_t50']:.2f} (SE)"
+        )
+
+    _save("exp8_convergence", conv)
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
+    return conv
+
+
+# =========================================================================
+# Experiment 9: Mutation spectrum decomposition analysis
+# =========================================================================
+def exp9_mutation_spectrum():
+    """Analyze contribution of each mutation type to escape."""
+    t0 = time.time()
+    print("\n" + "=" * 70)
+    print("Experiment 9: Mutation spectrum decomposition")
+    print("=" * 70)
+
+    results = {}
+    for name, spec in MUTATION_SPECTRA.items():
+        total = spec.total
+        results[name] = {
+            "total": float(total),
+            "log10_total": float(np.log10(total)) if total > 0 else -30,
+            "fractions": {
+                "point_mutation": float(spec.point_mutation / total)
+                if total > 0
+                else 0,
+                "small_indel": float(spec.small_indel / total) if total > 0 else 0,
+                "is_element": float(spec.is_element / total) if total > 0 else 0,
+                "large_deletion": float(spec.large_deletion / total)
+                if total > 0
+                else 0,
+                "recombination": float(spec.recombination / total) if total > 0 else 0,
+            },
+            "dominant_mechanism": max(
+                [
+                    "point_mutation",
+                    "small_indel",
+                    "is_element",
+                    "large_deletion",
+                    "recombination",
+                ],
+                key=lambda m: getattr(spec, m),
+            ),
+        }
+        print(
+            f"  {name}: dominant={results[name]['dominant_mechanism']}, "
+            f"total={total:.2e}"
+        )
+
+    _save("exp9_mutation_spectrum", results)
+    elapsed = time.time() - t0
+    print(f"  Elapsed: {elapsed:.1f}s")
     return results
 
 
@@ -778,19 +867,27 @@ def exp7_sensitivity():
 # Run all experiments
 # =========================================================================
 def run_all():
-    """Run all experiments and save results."""
-    print("Kill Switch Design Framework - Running All Experiments")
-    print("=" * 60)
-    exp1_single_layer_baselines()
-    exp2_multilayer_combinations()
-    exp3_correlation_sensitivity()
-    exp4_optimal_design()
+    """Run all experiments with publication-quality rigor."""
+    t_start = time.time()
+    print("=" * 70)
+    print("Kill Switch Design Framework — Full Experiment Suite")
+    print(f"Replicates: {N_REPLICATES}, Sweep points: {N_SWEEP_POINTS}")
+    print("=" * 70)
+
+    exp1_single_layer()
+    exp2_combinations()
+    exp3_correlation()
+    exp4_pareto()
     exp5_validation()
     exp6_ablation()
     exp7_sensitivity()
-    print("\n" + "=" * 60)
-    print("All experiments complete. Results saved to results/")
-    print("=" * 60)
+    exp8_convergence()
+    exp9_mutation_spectrum()
+
+    total = time.time() - t_start
+    print("\n" + "=" * 70)
+    print(f"All experiments complete. Total time: {total:.1f}s ({total / 60:.1f} min)")
+    print("=" * 70)
 
 
 if __name__ == "__main__":

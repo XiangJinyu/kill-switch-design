@@ -1,0 +1,74 @@
+{
+  "toxin_antitoxin": {
+    "total": 9e-07,
+    "log10_total": -6.045757490560675,
+    "fractions": {
+      "point_mutation": 0.2222222222222222,
+      "small_indel": 0.3333333333333333,
+      "is_element": 0.1111111111111111,
+      "large_deletion": 0.2222222222222222,
+      "recombination": 0.1111111111111111
+    },
+    "dominant_mechanism": "small_indel"
+  },
+  "crispr_single": {
+    "total": 2.9e-05,
+    "log10_total": -4.5376020021010435,
+    "fractions": {
+      "point_mutation": 0.034482758620689655,
+      "small_indel": 0.06896551724137931,
+      "is_element": 0.034482758620689655,
+      "large_deletion": 0.1724137931034483,
+      "recombination": 0.6896551724137931
+    },
+    "dominant_mechanism": "recombination"
+  },
+  "crispr_multi": {
+    "total": 2.5e-09,
+    "log10_total": -8.602059991327963,
+    "fractions": {
+      "point_mutation": 0.2,
+      "small_indel": 0.2,
+      "is_element": 0.2,
+      "large_deletion": 0.2,
+      "recombination": 0.2
+    },
+    "dominant_mechanism": "point_mutation"
+  },
+  "overlapping_gene": {
+    "total": 1.0099999999999999e-07,
+    "log10_total": -6.995678626217358,
+    "fractions": {
+      "point_mutation": 0.09900990099009901,
+      "small_indel": 0.297029702970297,
+      "is_element": 0.09900990099009901,
+      "large_deletion": 0.009900990099009903,
+      "recombination": 0.49504950495049505
+    },
+    "dominant_mechanism": "recombination"
+  },
+  "auxotrophy": {
+    "total": 1e-09,
+    "log10_total": -9.0,
+    "fractions": {
+      "point_mutation": 0.09999999999999999,
+      "small_indel": 0.0,
+      "is_element": 0.09999999999999999,
+      "large_deletion": 0.0,
+      "recombination": 0.7999999999999999
+    },
+    "dominant_mechanism": "recombination"
+  },
+  "integrase_differentiation": {
+    "total": 1e-06,
+    "log10_total": -6.0,
+    "fractions": {
+      "point_mutation": 0.05,
+      "small_indel": 0.05,
+      "is_element": 0.1,
+      "large_deletion": 0.1,
+      "recombination": 0.7
+    },
+    "dominant_mechanism": "recombination"
+  }
+}

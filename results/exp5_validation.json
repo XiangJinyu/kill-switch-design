@@ -1,70 +1,82 @@
 {
-  "results": [
+  "cross_validation": [
     {
-      "source": "Rottinghaus 2022 - CRISPR single gRNA",
+      "name": "crispr_single",
+      "study": "rottinghaus",
       "observed": 3e-05,
-      "predicted": 3e-05,
-      "log10_observed": -4.522878745280337,
-      "log10_predicted": -4.522878745280337,
-      "log10_ratio": 0.0,
-      "within_order_of_magnitude": true,
-      "condition": "single gRNA, E. coli Nissle"
+      "predicted_raw": 2.9e-05,
+      "predicted_corrected": 3.349032653988636e-05,
+      "log10_error_raw": -0.014723256820706347,
+      "log10_error_corrected": 0.04779812733138387,
+      "test_study": "rottinghaus"
     },
     {
-      "source": "Rottinghaus 2022 - CRISPR optimized 2-gRNA",
+      "name": "crispr_multi",
+      "study": "rottinghaus",
       "observed": 2.5e-09,
-      "predicted": 2.5e-09,
-      "log10_observed": -8.602059991327963,
-      "log10_predicted": -8.602059991327963,
-      "log10_ratio": 0.0,
-      "within_order_of_magnitude": true,
-      "condition": "2-gRNA + SOS knockout, E. coli Nissle"
+      "predicted_raw": 2.5e-09,
+      "predicted_corrected": 2.887097115507445e-09,
+      "log10_error_raw": 0.0,
+      "log10_error_corrected": 0.06252138415209023,
+      "test_study": "rottinghaus"
     },
     {
-      "source": "Chlebek 2023 - Toxin-antitoxin baseline",
+      "name": "toxin_antitoxin",
+      "study": "chlebek",
       "observed": 1e-06,
-      "predicted": 1e-06,
-      "log10_observed": -6.0,
-      "log10_predicted": -6.0,
-      "log10_ratio": 0.0,
-      "within_order_of_magnitude": true,
-      "condition": "RelE toxin, P. protegens"
+      "predicted_raw": 9e-07,
+      "predicted_corrected": 9.15385729888094e-07,
+      "log10_error_raw": -0.045757490560675115,
+      "log10_error_corrected": -0.03839586215032192,
+      "test_study": "chlebek"
     },
     {
-      "source": "Chlebek 2023 - Overlapping gene",
+      "name": "overlapping_gene",
+      "study": "chlebek",
       "observed": 1.4e-07,
-      "predicted": 1e-07,
-      "log10_observed": -6.853871964321762,
-      "log10_predicted": -7.0,
-      "log10_ratio": -0.1461280356782381,
-      "within_order_of_magnitude": true,
-      "condition": "ilvA/relE entanglement, -ile, P. protegens"
+      "predicted_raw": 1.0099999999999999e-07,
+      "predicted_corrected": 1.0272662079855277e-07,
+      "log10_error_raw": -0.14180666189559551,
+      "log10_error_corrected": -0.13444503348524237,
+      "test_study": "chlebek"
     },
     {
-      "source": "Chlebek 2023 - Auxotrophy",
+      "name": "auxotrophy",
+      "study": "chlebek",
       "observed": 1e-09,
-      "predicted": 1e-09,
-      "log10_observed": -9.0,
-      "log10_predicted": -9.0,
-      "log10_ratio": 0.0,
-      "within_order_of_magnitude": true,
-      "condition": "delta-ilvA delta-TdcB, P. protegens"
-    },
-    {
-      "source": "Chlebek 2023 - Time to 10% escape (no entanglement, +ile)",
-      "observed_generations": 30,
-      "predicted_generations": 178.2,
-      "ratio": 5.9399999999999995,
-      "condition": "relE, +ile, serial passage 1:100"
-    },
-    {
-      "source": "Chlebek 2023 - Time to 10% escape (entangled, -ile)",
-      "observed_generations": 130,
-      "predicted_generations": 500.0,
-      "ratio": 3.8461538461538463,
-      "condition": "ilvA/relE entangled, -ile, serial passage 1:100"
+      "predicted_raw": 1e-09,
+      "predicted_corrected": 1.0170952554312157e-09,
+      "log10_error_raw": 0.0,
+      "log10_error_corrected": 0.007361628410353183,
+      "test_study": "chlebek"
     }
   ],
-  "mean_abs_log_error": 0.02922560713564762,
-  "all_within_oom": true
+  "mean_abs_log_error_raw": 0.0404574818553954,
+  "mean_abs_log_error_corrected": 0.05810440710587832,
+  "all_within_1_oom": true,
+  "time_validation": [
+    {
+      "description": "Toxin-antitoxin, +ile (Chlebek 2023)",
+      "observed_gen": 30,
+      "stochastic_median": 191.39999999999998,
+      "stochastic_ci95": [
+        191.39999999999998,
+        191.39999999999998
+      ],
+      "analytical": Infinity,
+      "ratio_stochastic": 6.379999999999999
+    },
+    {
+      "description": "Overlapping gene, -ile (Chlebek 2023)",
+      "observed_gen": 130,
+      "observed_note": ">130 gen (7/10 lineages never reached 10%)",
+      "stochastic_median": 237.6,
+      "stochastic_ci95": [
+        237.6,
+        237.6
+      ],
+      "analytical": Infinity,
+      "ratio_stochastic": 1.8276923076923077
+    }
+  ]
 }
