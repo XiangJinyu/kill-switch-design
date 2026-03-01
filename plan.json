@@ -1,0 +1,65 @@
+{
+  "project": "Kill Switch Design Framework",
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Literature deep-dive and parameter extraction",
+      "status": "completed",
+      "summary": "Extracted 20+ parameters from Rottinghaus 2022, Chlebek 2023, Williams 2022. Escape rates 1e-9 to 3e-5."
+    },
+    {
+      "id": 2,
+      "name": "Implement single-layer kill switch ODE models",
+      "status": "completed",
+      "summary": "Implemented deterministic ODE and stochastic models for 6 architectures. Fixed IS element double-counting bug."
+    },
+    {
+      "id": 3,
+      "name": "Implement stochastic escape dynamics",
+      "status": "completed",
+      "summary": "Serial passage simulation with Poisson mutation and binomial dilution. 100 replicates per condition."
+    },
+    {
+      "id": 4,
+      "name": "Implement multi-layer combination framework",
+      "status": "completed",
+      "summary": "Correlation-aware combination model. Pairwise and triple combos tested at 4 correlation levels."
+    },
+    {
+      "id": 5,
+      "name": "Validate against experimental data",
+      "status": "completed",
+      "summary": "5/5 escape rate predictions within 1 OOM. Mean log error = 0.029. Time predictions off by 4-6x."
+    },
+    {
+      "id": 6,
+      "name": "Optimize combination strategies",
+      "status": "completed",
+      "summary": "20/30 combos meet NIH. Best triple: CRISPR+OG+Aux at 6e-18, 13% cost."
+    },
+    {
+      "id": 7,
+      "name": "Ablation and sensitivity analysis",
+      "status": "completed",
+      "summary": "Each layer provides 1e6-1e8 fold protection. OG most sensitive (S=1.00), Aux most robust (S=0.181)."
+    },
+    {
+      "id": 8,
+      "name": "Generate publication-quality figures",
+      "status": "completed",
+      "summary": "6 figures: architecture comparison, heatmap, correlation, Pareto front, validation, ablation."
+    },
+    {
+      "id": 9,
+      "name": "Write complete paper draft",
+      "status": "completed",
+      "summary": "Full paper with abstract, introduction, results, discussion, methods, references (~4500 words)."
+    },
+    {
+      "id": 10,
+      "name": "Write research process documentation",
+      "status": "completed",
+      "summary": "RESEARCH_PROCESS.md documenting topic selection, methods, bugs, and limitations."
+    }
+  ]
+}

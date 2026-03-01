@@ -1,0 +1,438 @@
+{
+  "pairwise": {
+    "toxin_antitoxin+crispr_multi_rho=independent": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 2.5e-15,
+      "log10_combined": -14.602059991327963,
+      "independent_product": 2.5e-15,
+      "det_final_escape": 4.4257342759449805e-13,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+crispr_multi_rho=low": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 1.0000002500000001e-08,
+      "log10_combined": -7.999999891426393,
+      "independent_product": 2.5e-15,
+      "det_final_escape": 1.770292585189376e-06,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 496.18800000000005,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+crispr_multi_rho=medium": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi"
+      ],
+      "correlation": 0.1,
+      "combined_escape_rate": 1.0000000249999999e-07,
+      "log10_combined": -6.999999989142638,
+      "independent_product": 2.5e-15,
+      "det_final_escape": 1.770278077102615e-05,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 472.8539999999999,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+crispr_multi_rho=high": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi"
+      ],
+      "correlation": 0.3,
+      "combined_escape_rate": 3.000000025e-07,
+      "log10_combined": -6.522878741661217,
+      "independent_product": 2.5e-15,
+      "det_final_escape": 5.3107400792668624e-05,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 386.81199999999995,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+overlapping_gene_rho=independent": {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 9.999999999999999e-14,
+      "log10_combined": -13.0,
+      "independent_product": 9.999999999999999e-14,
+      "det_final_escape": 1.7702937103625643e-11,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+overlapping_gene_rho=low": {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 1.00001e-08,
+      "log10_combined": -7.999995657076895,
+      "independent_product": 9.999999999999999e-14,
+      "det_final_escape": 1.77030984552246e-06,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 496.12199999999996,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+overlapping_gene_rho=medium": {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene"
+      ],
+      "correlation": 0.1,
+      "combined_escape_rate": 1.000001e-07,
+      "log10_combined": -6.9999995657057354,
+      "independent_product": 9.999999999999999e-14,
+      "det_final_escape": 1.7702798031084165e-05,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 480.54400000000004,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+overlapping_gene_rho=high": {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene"
+      ],
+      "correlation": 0.3,
+      "combined_escape_rate": 3.000001e-07,
+      "log10_combined": -6.522878600515535,
+      "independent_product": 9.999999999999999e-14,
+      "det_final_escape": 5.310741805211499e-05,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 421.978,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+auxotrophy_rho=independent": {
+      "layers": [
+        "toxin_antitoxin",
+        "auxotrophy"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 1e-15,
+      "log10_combined": -15.0,
+      "independent_product": 1e-15,
+      "det_final_escape": 1.7702937103777651e-13,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+auxotrophy_rho=low": {
+      "layers": [
+        "toxin_antitoxin",
+        "auxotrophy"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 1.0000001e-08,
+      "log10_combined": -7.999999956570554,
+      "independent_product": 1e-15,
+      "det_final_escape": 1.7702923196457665e-06,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 496.12199999999996,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+auxotrophy_rho=medium": {
+      "layers": [
+        "toxin_antitoxin",
+        "auxotrophy"
+      ],
+      "correlation": 0.1,
+      "combined_escape_rate": 1.00000001e-07,
+      "log10_combined": -6.999999995657055,
+      "independent_product": 1e-15,
+      "det_final_escape": 1.77027805054868e-05,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 465.03200000000004,
+      "meets_NIH_threshold": false
+    },
+    "toxin_antitoxin+auxotrophy_rho=high": {
+      "layers": [
+        "toxin_antitoxin",
+        "auxotrophy"
+      ],
+      "correlation": 0.3,
+      "combined_escape_rate": 3.00000001e-07,
+      "log10_combined": -6.522878743832689,
+      "independent_product": 1e-15,
+      "det_final_escape": 5.3107400527138194e-05,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 422.0439999999999,
+      "meets_NIH_threshold": false
+    },
+    "crispr_multi+overlapping_gene_rho=independent": {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 2.4999999999999997e-16,
+      "log10_combined": -15.602059991327963,
+      "independent_product": 2.4999999999999997e-16,
+      "det_final_escape": 4.425734275945517e-14,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "crispr_multi+overlapping_gene_rho=low": {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 1.0000002500000001e-09,
+      "log10_combined": -8.999999891426393,
+      "independent_product": 2.4999999999999997e-16,
+      "det_final_escape": 1.7702939961753705e-07,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "crispr_multi+overlapping_gene_rho=medium": {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "correlation": 0.1,
+      "combined_escape_rate": 1.000000025e-08,
+      "log10_combined": -7.999999989142638,
+      "independent_product": 2.4999999999999997e-16,
+      "det_final_escape": 1.7702921868739752e-06,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 496.12199999999996,
+      "meets_NIH_threshold": false
+    },
+    "crispr_multi+overlapping_gene_rho=high": {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "correlation": 0.3,
+      "combined_escape_rate": 3.000000025e-08,
+      "log10_combined": -7.522878741661217,
+      "independent_product": 2.4999999999999997e-16,
+      "det_final_escape": 5.3108670655545945e-06,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 488.168,
+      "meets_NIH_threshold": false
+    },
+    "crispr_multi+auxotrophy_rho=independent": {
+      "layers": [
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 2.5e-18,
+      "log10_combined": -17.602059991327963,
+      "independent_product": 2.5e-18,
+      "det_final_escape": 4.425734275945837e-16,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "crispr_multi+auxotrophy_rho=low": {
+      "layers": [
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 2.5000002500000002e-11,
+      "log10_combined": -10.602059947898516,
+      "independent_product": 2.5e-18,
+      "det_final_escape": 4.425734708720376e-09,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "crispr_multi+auxotrophy_rho=medium": {
+      "layers": [
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "correlation": 0.1,
+      "combined_escape_rate": 2.5000000250000003e-10,
+      "log10_combined": -9.602059986985017,
+      "independent_product": 2.5e-18,
+      "det_final_escape": 4.425734222218239e-08,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "crispr_multi+auxotrophy_rho=high": {
+      "layers": [
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "correlation": 0.3,
+      "combined_escape_rate": 7.500000025e-10,
+      "log10_combined": -9.124938735160653,
+      "independent_product": 2.5e-18,
+      "det_final_escape": 1.327720199022716e-07,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 496.056,
+      "meets_NIH_threshold": true
+    },
+    "overlapping_gene+auxotrophy_rho=independent": {
+      "layers": [
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 1e-16,
+      "log10_combined": -16.0,
+      "independent_product": 1e-16,
+      "det_final_escape": 1.7702937103780623e-14,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "overlapping_gene+auxotrophy_rho=low": {
+      "layers": [
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 1.0000001e-09,
+      "log10_combined": -8.999999956570553,
+      "independent_product": 1e-16,
+      "det_final_escape": 1.77029373063143e-07,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 500.0,
+      "meets_NIH_threshold": true
+    },
+    "overlapping_gene+auxotrophy_rho=medium": {
+      "layers": [
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.1,
+      "combined_escape_rate": 1.00000001e-08,
+      "log10_combined": -7.999999995657055,
+      "independent_product": 1e-16,
+      "det_final_escape": 1.7702921603196183e-06,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 492.44199999999995,
+      "meets_NIH_threshold": false
+    },
+    "overlapping_gene+auxotrophy_rho=high": {
+      "layers": [
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.3,
+      "combined_escape_rate": 3.00000001e-08,
+      "log10_combined": -7.522878743832689,
+      "independent_product": 1e-16,
+      "det_final_escape": 5.310867039000326e-06,
+      "stoch_median_final": 0.0,
+      "stoch_mean_t50": 480.54400000000004,
+      "meets_NIH_threshold": false
+    }
+  },
+  "triple": {
+    "toxin_antitoxin+crispr_multi+overlapping_gene_rho=independent": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 2.5e-22,
+      "log10_combined": -21.602059991327963,
+      "time_to_50pct": 9.216102370972184,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+crispr_multi+overlapping_gene_rho=low": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 2.02500025e-15,
+      "log10_combined": -14.693574918832713,
+      "time_to_50pct": 6.227077630412226,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+crispr_multi+auxotrophy_rho=independent": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 2.5000000000000003e-24,
+      "log10_combined": -23.602059991327963,
+      "time_to_50pct": 10.081422252015328,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+crispr_multi+auxotrophy_rho=low": {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 6.00000025e-17,
+      "log10_combined": -16.221848731520755,
+      "time_to_50pct": 6.888300487310509,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+overlapping_gene+auxotrophy_rho=independent": {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 9.999999999999999e-23,
+      "log10_combined": -22.0,
+      "time_to_50pct": 9.388275071455382,
+      "meets_NIH_threshold": true
+    },
+    "toxin_antitoxin+overlapping_gene+auxotrophy_rho=low": {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 2.0100001e-15,
+      "log10_combined": -14.69680392097282,
+      "time_to_50pct": 6.2284746902861094,
+      "meets_NIH_threshold": true
+    },
+    "crispr_multi+overlapping_gene+auxotrophy_rho=independent": {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.0,
+      "combined_escape_rate": 2.5e-25,
+      "log10_combined": -24.602059991327963,
+      "time_to_50pct": 10.514082192536899,
+      "meets_NIH_threshold": true
+    },
+    "crispr_multi+overlapping_gene+auxotrophy_rho=low": {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "correlation": 0.01,
+      "combined_escape_rate": 6.000000250000001e-18,
+      "log10_combined": -17.221848731520755,
+      "time_to_50pct": 7.32096042783208,
+      "meets_NIH_threshold": true
+    }
+  }
+}

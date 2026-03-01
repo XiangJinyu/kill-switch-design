@@ -1,0 +1,50 @@
+{
+  "full_system": {
+    "layers": [
+      "crispr_multi",
+      "overlapping_gene",
+      "auxotrophy"
+    ],
+    "escape_rate": 6.000000250000001e-18,
+    "log10_rate": -17.221848731520755,
+    "fitness_cost": 0.13
+  },
+  "ablations": [
+    {
+      "removed": "crispr_multi",
+      "remaining": [
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "escape_rate": 1.0000001e-09,
+      "log10_rate": -8.999999956570553,
+      "fitness_cost": 0.08,
+      "log10_rate_increase": 8.2218487749502,
+      "fold_increase": 166666676.38888848
+    },
+    {
+      "removed": "overlapping_gene",
+      "remaining": [
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "escape_rate": 2.5000002500000002e-11,
+      "log10_rate": -10.602059947898516,
+      "fitness_cost": 0.08,
+      "log10_rate_increase": 6.619788783622237,
+      "fold_increase": 4166666.9097222122
+    },
+    {
+      "removed": "auxotrophy",
+      "remaining": [
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "escape_rate": 1.0000002500000001e-09,
+      "log10_rate": -8.999999891426393,
+      "fitness_cost": 0.1,
+      "log10_rate_increase": 8.22184884009436,
+      "fold_increase": 166666701.38888744
+    }
+  ]
+}

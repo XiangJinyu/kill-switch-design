@@ -1,0 +1,411 @@
+{
+  "designs": [
+    {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene",
+        "auxotrophy",
+        "integrase_differentiation"
+      ],
+      "n_layers": 4,
+      "fitness_cost": 0.18,
+      "combined_escape_rate": 9.525000249999998e-24,
+      "log10_rate": -23.021135004253537,
+      "time_to_50pct_gen": 9.830079281660213,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "n_layers": 4,
+      "fitness_cost": 0.18,
+      "combined_escape_rate": 9.52500025e-24,
+      "log10_rate": -23.021135004253537,
+      "time_to_50pct_gen": 9.830079281660211,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "auxotrophy",
+        "integrase_differentiation"
+      ],
+      "n_layers": 4,
+      "fitness_cost": 0.18,
+      "combined_escape_rate": 9.502500250000002e-23,
+      "log10_rate": -22.022162110299064,
+      "time_to_50pct_gen": 9.397863728779207,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene",
+        "auxotrophy",
+        "integrase_differentiation"
+      ],
+      "n_layers": 4,
+      "fitness_cost": 0.18,
+      "combined_escape_rate": 3.0210001e-21,
+      "log10_rate": -20.519849260350867,
+      "time_to_50pct_gen": 8.747873140475829,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "overlapping_gene",
+        "integrase_differentiation"
+      ],
+      "n_layers": 4,
+      "fitness_cost": 0.2,
+      "combined_escape_rate": 3.0525002500000003e-21,
+      "log10_rate": -20.515344291814326,
+      "time_to_50pct_gen": 8.745924021056757,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.13,
+      "combined_escape_rate": 6.000000250000001e-18,
+      "log10_rate": -17.221848731520755,
+      "time_to_50pct_gen": 7.32096042783208,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.13,
+      "combined_escape_rate": 6.00000025e-17,
+      "log10_rate": -16.221848731520755,
+      "time_to_50pct_gen": 6.888300487310509,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "crispr_multi",
+        "auxotrophy",
+        "integrase_differentiation"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.13,
+      "combined_escape_rate": 6.00000025e-17,
+      "log10_rate": -16.221848731520755,
+      "time_to_50pct_gen": 6.888300487310509,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.13,
+      "combined_escape_rate": 2.0100001e-15,
+      "log10_rate": -14.69680392097282,
+      "time_to_50pct_gen": 6.2284746902861094,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "overlapping_gene",
+        "auxotrophy",
+        "integrase_differentiation"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.13,
+      "combined_escape_rate": 2.0100001e-15,
+      "log10_rate": -14.69680392097282,
+      "time_to_50pct_gen": 6.2284746902861094,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.15000000000000002,
+      "combined_escape_rate": 2.02500025e-15,
+      "log10_rate": -14.693574918832713,
+      "time_to_50pct_gen": 6.227077630412226,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene",
+        "integrase_differentiation"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.15000000000000002,
+      "combined_escape_rate": 2.02500025e-15,
+      "log10_rate": -14.693574918832713,
+      "time_to_50pct_gen": 6.227077630412226,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "auxotrophy",
+        "integrase_differentiation"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.13,
+      "combined_escape_rate": 2.0010001e-14,
+      "log10_rate": -13.698752889659916,
+      "time_to_50pct_gen": 5.796657990440776,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi",
+        "integrase_differentiation"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.15000000000000002,
+      "combined_escape_rate": 2.00250025e-14,
+      "log10_rate": -13.698427421024691,
+      "time_to_50pct_gen": 5.796517173200417,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene",
+        "integrase_differentiation"
+      ],
+      "n_layers": 3,
+      "fitness_cost": 0.15000000000000002,
+      "combined_escape_rate": 2.10001e-14,
+      "log10_rate": -13.677778637202044,
+      "time_to_50pct_gen": 5.787583271619868,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "crispr_multi",
+        "auxotrophy"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.08,
+      "combined_escape_rate": 2.5000002500000002e-11,
+      "log10_rate": -10.602059947898516,
+      "time_to_50pct_gen": 4.456843006444719,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "auxotrophy"
+      ],
+      "n_layers": 1,
+      "fitness_cost": 0.03,
+      "combined_escape_rate": 1e-09,
+      "log10_rate": -9.0,
+      "time_to_50pct_gen": 3.763695844674955,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "overlapping_gene",
+        "auxotrophy"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.08,
+      "combined_escape_rate": 1.0000001e-09,
+      "log10_rate": -8.999999956570553,
+      "time_to_50pct_gen": 3.7636958258847732,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "crispr_multi",
+        "overlapping_gene"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.1,
+      "combined_escape_rate": 1.0000002500000001e-09,
+      "log10_rate": -8.999999891426393,
+      "time_to_50pct_gen": 3.7636957976995045,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "crispr_multi"
+      ],
+      "n_layers": 1,
+      "fitness_cost": 0.05,
+      "combined_escape_rate": 2.5e-09,
+      "log10_rate": -8.602059991327963,
+      "time_to_50pct_gen": 3.5915231441917577,
+      "meets_NIH": true,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "auxotrophy"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.08,
+      "combined_escape_rate": 1.0000001e-08,
+      "log10_rate": -7.999999956570554,
+      "time_to_50pct_gen": 3.3310358853632023,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "auxotrophy",
+        "integrase_differentiation"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.08,
+      "combined_escape_rate": 1.0000001e-08,
+      "log10_rate": -7.999999956570554,
+      "time_to_50pct_gen": 3.3310358853632023,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "crispr_multi"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.1,
+      "combined_escape_rate": 1.0000002500000001e-08,
+      "log10_rate": -7.999999891426393,
+      "time_to_50pct_gen": 3.3310358571779335,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "crispr_multi",
+        "integrase_differentiation"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.1,
+      "combined_escape_rate": 1.0000002500000001e-08,
+      "log10_rate": -7.999999891426393,
+      "time_to_50pct_gen": 3.3310358571779335,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "overlapping_gene"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.1,
+      "combined_escape_rate": 1.00001e-08,
+      "log10_rate": -7.999995657076895,
+      "time_to_50pct_gen": 3.3310340251445316,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "overlapping_gene",
+        "integrase_differentiation"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.1,
+      "combined_escape_rate": 1.00001e-08,
+      "log10_rate": -7.999995657076895,
+      "time_to_50pct_gen": 3.3310340251445316,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin",
+        "integrase_differentiation"
+      ],
+      "n_layers": 2,
+      "fitness_cost": 0.1,
+      "combined_escape_rate": 1.0001e-08,
+      "log10_rate": -7.999956572723137,
+      "time_to_50pct_gen": 3.331017114910359,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "overlapping_gene"
+      ],
+      "n_layers": 1,
+      "fitness_cost": 0.05,
+      "combined_escape_rate": 1e-07,
+      "log10_rate": -7.0,
+      "time_to_50pct_gen": 2.8983759636318123,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "toxin_antitoxin"
+      ],
+      "n_layers": 1,
+      "fitness_cost": 0.05,
+      "combined_escape_rate": 1e-06,
+      "log10_rate": -6.0,
+      "time_to_50pct_gen": 2.465716023110241,
+      "meets_NIH": false,
+      "correlation": 0.01
+    },
+    {
+      "layers": [
+        "integrase_differentiation"
+      ],
+      "n_layers": 1,
+      "fitness_cost": 0.05,
+      "combined_escape_rate": 1e-06,
+      "log10_rate": -6.0,
+      "time_to_50pct_gen": 2.465716023110241,
+      "meets_NIH": false,
+      "correlation": 0.01
+    }
+  ],
+  "max_fitness_cost": 0.2,
+  "correlation": 0.01
+}
