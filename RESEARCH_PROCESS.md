@@ -2,7 +2,11 @@
 
 ## Project: Computational Framework for Evolutionary-Robust Kill Switch Design
 
-### Timeline: 2026-03-02 (single session)
+### Timeline: 2026-03-02 (single session, two phases)
+
+### Phase 1 (initial prototype, ~1h): Rapid framework, identified critical bugs
+
+### Phase 2 (overhaul, ~2h): Rigorous rewrite with proper stochastic dynamics
 
 ---
 
@@ -129,6 +133,13 @@ I used 5% per layer as default, based on the rough consistency of published grow
 ---
 
 ## 5. Bug Fix Log
+
+### Bug 0 (Phase 2): Stochastic Population Crash
+
+- **Symptom**: All stochastic t50 values were at the simulation maximum (500 or 1000 gen)
+- **Root cause**: Growth with factor `(0.5 + 0.5*cap)` was too conservative — population declined each passage because effective growth (68.9x) didn't compensate dilution (100x)
+- **Fix**: Rewrote passage model: cells grow to K (not from post-dilution), dilute to K/dilution_factor. Number of sub-generations = log2(K/N_post_dilution)
+- **Impact**: Time-to-escape now shows proper hierarchy: 165-792 gen across architectures
 
 ### Bug 1: IS Element Double-Counting
 
