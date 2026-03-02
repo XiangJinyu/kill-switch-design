@@ -1,0 +1,72 @@
+{
+  "predictions": [
+    {
+      "source": "Foo 2025 - Non-entangled endonuclease (pEndo)",
+      "observed": 1e-05,
+      "predicted": 9e-07,
+      "log10_obs": -5.0,
+      "log10_pred": -6.045757490560675,
+      "log10_error": -1.0457574905606752,
+      "model_used": "toxin_antitoxin",
+      "reasoning": "Single inducible killing protein, IS-susceptible, similar to TA"
+    },
+    {
+      "source": "Foo 2025 - Entangled (pEnt-533 reop)",
+      "observed": 1e-07,
+      "predicted": 1.0099999999999999e-07,
+      "log10_obs": -7.0,
+      "log10_pred": -6.995678626217358,
+      "log10_error": 0.004321373782642578,
+      "model_used": "overlapping_gene",
+      "reasoning": "Gene entanglement with IS hotspot removal, ~28% overlap"
+    },
+    {
+      "source": "Foo 2025 - Entangled + strong ColE9 (pEnt-533, 0.47)",
+      "observed": 1e-10,
+      "predicted": 5.050000101505e-09,
+      "log10_obs": -10.0,
+      "log10_pred": -8.29670861315202,
+      "log10_error": 1.7032913868479804,
+      "model_used": "overlapping_gene + auxotrophy (rho=0.05)",
+      "reasoning": "Entanglement + ColE9 policing modeled as OG + Aux 2-layer"
+    },
+    {
+      "source": "Foo 2025 - Entangled in vivo (mouse gut)",
+      "observed": 3e-07,
+      "predicted": 1.0099999999999999e-07,
+      "log10_obs": -6.522878745280337,
+      "log10_pred": -6.995678626217358,
+      "log10_error": -0.47279988093701986,
+      "model_used": "overlapping_gene (in vitro calibration)",
+      "reasoning": "In vitro model applied to in vivo; expect underprediction",
+      "note": "In vivo rates ~100x higher due to stress-induced transposition"
+    },
+    {
+      "source": "Hayashi 2024 - thyA auxotrophy alone (day 6 survival)",
+      "observed": 0.0001,
+      "predicted": 1e-09,
+      "log10_obs": -4.0,
+      "log10_pred": -9.0,
+      "log10_error": -5.0,
+      "model_used": "auxotrophy",
+      "reasoning": "thyA auxotrophy; our model underpredicts because it assumes strict dependence",
+      "note": "Different organism (Bacteroides), different auxotrophy mechanism"
+    },
+    {
+      "source": "Hayashi 2024 - thyA auxotrophy + Cas9 device (day 6 survival)",
+      "observed": 1e-06,
+      "predicted": 2.5000002512500004e-11,
+      "log10_obs": -6.0,
+      "log10_pred": -10.602059947681369,
+      "log10_error": -4.6020599476813695,
+      "model_used": "auxotrophy + crispr_multi (rho=0.01)",
+      "reasoning": "2-layer system; different organism but analogous mechanisms"
+    }
+  ],
+  "n_total": 6,
+  "n_fair": 3,
+  "all_mean_abs_log_error": 2.138038346634948,
+  "fair_mean_abs_log_error": 0.9177900837304328,
+  "all_within_2_oom": false,
+  "fair_within_1_oom": false
+}
