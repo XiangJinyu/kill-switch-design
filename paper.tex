@@ -84,6 +84,13 @@ Integrase diff. & 15\% & Williams 2022 (T7 RNAP burden) \\
 
 With these calibrated costs, the median time to 50\% escape ranged from 53~generations (toxin-antitoxin) to 792~generations (synthetic auxotrophy), consistent with published experimental timescales (see Section~\ref{sec:validation}).
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig1_architecture_overview}
+  \caption{Single-layer kill switch characterization. (A)~Escape rates for six architecturally distinct mechanisms calibrated from published experimental data. (B)~Mutation spectrum decomposition showing the contribution of point mutations, small indels ($<$50~bp), IS~element insertions, large deletions ($>$50~bp), and recombination events for each architecture. (C--D)~Escape takeover kinetics from stochastic serial passage simulations (10,000 replicates, $N_0 = 10^7$, $K = 10^9$, 1:100 dilution) with architecture-specific fitness costs calibrated from competitive index data.}
+  \label{fig:arch}
+\end{figure}
+
 \subsection{Multi-Layer Combination Analysis}
 
 We evaluated all pairwise ($n = 10$) and triple ($n = 10$) combinations of five architectures at multiple inter-layer correlation levels (Figure~\ref{fig:heatmap}). At the reference correlation $\rho = 0.01$, six of ten pairwise combinations met the NIH threshold of $10^{-8}$, while all ten triple combinations passed.
@@ -91,6 +98,13 @@ We evaluated all pairwise ($n = 10$) and triple ($n = 10$) combinations of five 
 The most effective pairwise combination was CRISPR multi-gRNA + synthetic auxotrophy ($2.5 \times 10^{-11}$), exploiting the orthogonality of genome-targeting and metabolic-dependence mechanisms. The best triple combination---CRISPR multi-gRNA + overlapping gene + auxotrophy---achieved $6.06 \times 10^{-18}$, ten orders of magnitude below the NIH threshold.
 
 Notably, combinations involving integrase differentiation circuits at $\rho = 0.01$ were marginal: at $1.0 \times 10^{-8}$, they exactly match the threshold, reflecting the relatively high individual escape rate ($10^{-6}$) of integrase-based mechanisms.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig2_combination_heatmap}
+  \caption{Multi-layer combination analysis. Heatmap of combined escape rates ($\log_{10}$, cell$^{-1}$ gen$^{-1}$) for all pairwise ($n = 10$) and triple ($n = 10$) combinations of five kill switch architectures at inter-layer correlation $\rho = 0.01$. The dashed line indicates the NIH-recommended threshold of $10^{-8}$. Green cells meet the threshold; red cells do not.}
+  \label{fig:heatmap}
+\end{figure}
 
 \subsection{Inter-Layer Correlation Is the Critical Design Parameter}
 
@@ -102,11 +116,25 @@ In contrast, the CRISPR multi-gRNA + auxotrophy pair and the recommended triple-
 
 A two-dimensional phase diagram (Figure~\ref{fig:corr}B) mapping the combined escape rate as a function of both $\rho$ and the overlapping gene escape rate factor reveals a broad safe operating region where the NIH threshold is maintained. This visualization provides a practical tool for assessing the impact of design uncertainties.
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig3_correlation_sensitivity}
+  \caption{Inter-layer correlation is the critical design parameter. (A)~Combined escape rate as a function of inter-layer correlation $\rho$ for representative combinations. The critical correlation $\rho_\text{crit} = 0.102$ at which the CRISPR multi-gRNA + overlapping gene combination loses NIH compliance is indicated by the vertical dashed line; the horizontal dashed line marks the NIH threshold. (B)~Two-dimensional phase diagram mapping the combined escape rate as a function of $\rho$ and the overlapping gene escape rate factor; contours show the safe operating region.}
+  \label{fig:corr}
+\end{figure}
+
 \subsection{Optimal Design Search}
 
 An exhaustive search over all 31 valid combinations of up to five layers (maximum fitness cost 25\%) identified 24 designs meeting the NIH threshold at $\rho = 0.01$ (Figure~\ref{fig:pareto}). Five designs formed the Pareto front---no other design achieved both a lower escape rate and lower fitness cost.
 
 The practical recommendation is the three-layer design of CRISPR multi-gRNA + overlapping gene + auxotrophy: at $6.06 \times 10^{-18}$ escape rate and 20\% total fitness cost, it provides an enormous safety margin. Adding a fourth layer (integrase differentiation) improves the rate to $9.62 \times 10^{-24}$ but increases the cost to 23\%, with marginal practical benefit given that containment is already assured.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig4_pareto}
+  \caption{Optimal design search. All 24 designs meeting the NIH threshold at $\rho = 0.01$ plotted as combined escape rate versus total fitness cost. Pareto-optimal designs (no other design achieves both a lower escape rate and lower fitness cost simultaneously) are highlighted; five designs form the Pareto front. The recommended triple-layer design (CRISPR multi-gRNA + overlapping gene + auxotrophy) is labeled.}
+  \label{fig:pareto}
+\end{figure}
 
 \subsection{Framework Validation}
 
@@ -115,6 +143,13 @@ We performed leave-one-study-out cross-validation, calibrating on data from Rott
 \label{sec:validation}
 
 For time-to-escape predictions, calibration of architecture-specific fitness costs from competitive index data (Table~\ref{tab:fitness}) substantially improved accuracy. The model predicted 40~generations for the toxin-antitoxin system to reach 10\% escape, compared to 30~generations observed by Chlebek~et~al.\cite{Chlebek2023} (ratio 1.3$\times$). For the entangled overlapping gene system under auxotrophic selection, the model predicted 106~generations, consistent with the experimental observation that 7 of 10 lineages had not reached 10\% escape by 132~generations. A residual 1.3$\times$ overestimate for the toxin-antitoxin system likely reflects differences in effective population size between simulated (constant $10^7$ post-dilution) and experimental (variable) conditions.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig5_validation}
+  \caption{Framework validation. (A)~Leave-one-study-out cross-validation: predicted versus observed escape rates for five experimental measurements from two independent studies. The solid diagonal represents perfect prediction; dashed lines indicate one order of magnitude error. Mean absolute log-error $= 0.04$. (B)~Predicted and observed time to 10\% escape for the toxin-antitoxin and overlapping gene systems.}
+  \label{fig:valid}
+\end{figure}
 
 \subsection{Out-of-Sample Prediction}
 
@@ -129,6 +164,13 @@ For the \textit{Bacteroides} system\cite{Hayashi2024}, predictions were 4--5 ord
 Ablation analysis (Figure~\ref{fig:ablation}A) confirmed that each layer in the recommended triple design provides essential, non-redundant protection. Removing any single layer increased the combined escape rate by $4.1 \times 10^6$ to $1.7 \times 10^8$ fold. The overlapping gene and auxotrophy layers contributed nearly equally ($\sim$$10^8$-fold each), while the CRISPR multi-gRNA layer contributed $\sim$$10^6$-fold.
 
 Local sensitivity analysis (Figure~\ref{fig:ablation}B) revealed a heterogeneous vulnerability profile. The overlapping gene layer had the highest sensitivity coefficient ($S = 1.00$): a 10-fold increase in its individual escape rate translates directly to a 10-fold increase in the combined rate. The CRISPR multi-gRNA layer showed moderate sensitivity ($S = 0.84$). Synthetic auxotrophy was the most robust component ($S = 0.17$), meaning the combined rate is relatively insensitive to uncertainty in the auxotrophy escape rate.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig6_ablation_sensitivity}
+  \caption{Ablation and sensitivity analysis of the recommended triple-layer design (CRISPR multi-gRNA + overlapping gene + synthetic auxotrophy). (A)~Fold-increase in combined escape rate upon removal of each individual layer; error bars show bootstrap 95\% confidence intervals. (B)~Local sensitivity coefficients ($S$) quantifying the proportional change in combined escape rate per unit proportional change in each layer's individual escape rate.}
+  \label{fig:ablation}
+\end{figure}
 
 \subsection{Robustness Across Conditions}
 
@@ -193,5 +235,36 @@ Convergence was verified by computing the standard error of the median time-to-e
 All source code, data, and analysis scripts are available at \url{https://github.com/XiangJinyu/kill-switch-design}. Simulations were performed in Python~3.12 using NumPy~1.26 and SciPy~1.12. All results are fully reproducible from the provided scripts.
 
 \bibliography{references}
+
+\clearpage
+\section*{Supplementary Figures}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_s1_convergence}
+  \caption{Supplementary Figure~S1: Simulation convergence analysis. Standard error of the median time-to-escape as a function of replicate count (50--10,000 replicates). The standard error reaches 0.02~generations at $n = 10{,}000$ replicates, confirming that results are well-converged at the chosen replicate count.}
+  \label{fig:s1}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_s2_deployment}
+  \caption{Supplementary Figure~S2: Long-term deployment analysis. Cumulative escape probability over 5,000 generations (5,000 replicates) for the single CRISPR multi-gRNA system, the double CRISPR + auxotrophy combination, and the recommended triple-layer design. The triple design shows zero escape events through 5,000 generations, confirming indefinite containment within the simulation horizon.}
+  \label{fig:s2}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_s3_environment}
+  \caption{Supplementary Figure~S3: Growth environment sensitivity. Time to 50\% escape under five growth environments spanning rich laboratory media to nutrient-poor soil conditions. The 17-fold variation in escape dynamics (53--880~generations for the toxin-antitoxin system) demonstrates the importance of environment-specific calibration.}
+  \label{fig:s3}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_s4_correlation_models}
+  \caption{Supplementary Figure~S4: Correlation model sensitivity. Combined escape rates for the recommended triple-layer design under four alternative mathematical formulations of inter-layer correlation, as a function of $\rho$. The NIH threshold ($10^{-8}$) is indicated by the dashed horizontal line. The triple design maintains NIH compliance under two of four models at all tested correlation values including $\rho = 1$.}
+  \label{fig:s4}
+\end{figure}
 
 \end{document}
